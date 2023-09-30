@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 1ad514700dce2b942971dcde9969f0aa
+guid: 8e245202ae7bcbc4cb656efc9487d1a0
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -39,7 +39,7 @@ TextureImporter:
     mipBias: 0
     wrapU: 1
     wrapV: 1
-    wrapW: 1
+    wrapW: 0
   nPOTScale: 0
   lightmap: 0
   compressionQuality: 50
@@ -119,7 +119,70 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PacStudent Ghosts (Scared) (128x128)_0
+      name: PacStudent Ghosts (Recovering)_0
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 264
+        width: 120
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e91f288813ce60e41a4c6c79725105b8
+      internalID: 1057564869
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PacStudent Ghosts (Recovering)_1
+      rect:
+        serializedVersion: 2
+        x: 132
+        y: 264
+        width: 120
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d04857a22bb0b484a85508468c9d37b3
+      internalID: -1287733863
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PacStudent Ghosts (Recovering)_2
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 264
+        width: 120
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5a7f5c4dc9cb78c4ab943cad1d796a1c
+      internalID: 359612502
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PacStudent Ghosts (Recovering)_3
       rect:
         serializedVersion: 2
         x: 4
@@ -133,18 +196,18 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 670bd5968db15ab44b164edc6be6b156
-      internalID: 1687255844
+      spriteID: e7a843a3ff17aca40b3fa4bd1bb34174
+      internalID: -726806976
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PacStudent Ghosts (Scared) (128x128)_1
+      name: PacStudent Ghosts (Recovering)_4
       rect:
         serializedVersion: 2
         x: 132
-        y: 136
+        y: 132
         width: 120
         height: 120
       alignment: 0
@@ -154,14 +217,35 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: aa85f1cb0e80ea2489cdf4f405238c45
-      internalID: -2019047542
+      spriteID: b3846bfd0d9bf98418dd2ae6c2eba509
+      internalID: -196692906
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PacStudent Ghosts (Scared) (128x128)_2
+      name: PacStudent Ghosts (Recovering)_5
+      rect:
+        serializedVersion: 2
+        x: 260
+        y: 132
+        width: 120
+        height: 120
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 63198c7f5c3f46744a4ae670ac2b97f8
+      internalID: -1923120107
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: PacStudent Ghosts (Recovering)_6
       rect:
         serializedVersion: 2
         x: 4
@@ -175,14 +259,14 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b7d02f1f11751064ea8dafcd5c76d4c9
-      internalID: 319651037
+      spriteID: df352cfcf377b4f40b35b0a999cb07df
+      internalID: 1015102111
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PacStudent Ghosts (Scared) (128x128)_3
+      name: PacStudent Ghosts (Recovering)_7
       rect:
         serializedVersion: 2
         x: 132
@@ -196,8 +280,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 110a9c2d6b3e37e48bf652bf6f7a66d9
-      internalID: -1234766691
+      spriteID: fe7cbc88c97d92c4f9f2e6aa18c0c46f
+      internalID: 547552445
       vertices: []
       indices: 
       edges: []
@@ -205,7 +289,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 5e97eb03825dee720800000000000000
+    spriteID: d066ab4d5a25d544084747854d5238b3
     internalID: 0
     vertices: []
     indices: 
@@ -213,10 +297,14 @@ TextureImporter:
     weights: []
     secondaryTextures: []
     nameFileIdTable:
-      PacStudent Ghosts (Scared) (128x128)_0: 1687255844
-      PacStudent Ghosts (Scared) (128x128)_1: -2019047542
-      PacStudent Ghosts (Scared) (128x128)_2: 319651037
-      PacStudent Ghosts (Scared) (128x128)_3: -1234766691
+      PacStudent Ghosts (Recovering)_0: 1057564869
+      PacStudent Ghosts (Recovering)_1: -1287733863
+      PacStudent Ghosts (Recovering)_2: 359612502
+      PacStudent Ghosts (Recovering)_3: -726806976
+      PacStudent Ghosts (Recovering)_4: -196692906
+      PacStudent Ghosts (Recovering)_5: -1923120107
+      PacStudent Ghosts (Recovering)_6: 1015102111
+      PacStudent Ghosts (Recovering)_7: 547552445
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

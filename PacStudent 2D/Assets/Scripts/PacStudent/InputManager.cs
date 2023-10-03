@@ -9,6 +9,7 @@ public class InputManager : MonoBehaviour
 {
     [SerializeField] private GameObject PacStudent;
     [SerializeField] private Animator animator;
+    [SerializeField] private AudioSource movementAudio;
     
     private Tweener tweener;
 
@@ -21,10 +22,15 @@ public class InputManager : MonoBehaviour
     {
         tweener = GetComponent<Tweener>();
         isMoving = true;
+
         PacStudent = GameObject.FindWithTag("PacStudent");
+
         animator = PacStudent.GetComponent<Animator>();
         animator.SetFloat("Horizontal", 0.0f);
         animator.SetFloat("Vertical", 0.0f);
+
+        movementAudio = PacStudent.GetComponent<AudioSource>();
+        movementAudio.mute = true; // audio muted at the start as PacStudent is idle.
     }
 
     // Update is called once per frame
@@ -43,7 +49,8 @@ public class InputManager : MonoBehaviour
                 animator.SetFloat("Horizontal", 1.0f);
                 animator.SetFloat("Vertical", 0.0f);
                 tweener.AddTween(PacStudent.transform, PacStudent.transform.position, new Vector3(-8.3f, 4.34f, 0.0f), 1f);
-
+                movementAudio.mute = false;
+                movementAudio.loop = true;
             }
 
             // Move down:

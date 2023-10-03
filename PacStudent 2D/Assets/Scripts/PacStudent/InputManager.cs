@@ -14,12 +14,17 @@ public class InputManager : MonoBehaviour
 
     float timer;
     float lastTime;
+    bool isMoving;
 
     // Start is called before the first frame update
     void Start()
     {
         tweener = GetComponent<Tweener>();
-        animator = GetComponent<Animator>();
+        isMoving = true;
+        PacStudent = GameObject.FindWithTag("PacStudent");
+        animator = PacStudent.GetComponent<Animator>();
+        animator.SetFloat("Horizontal", 0.0f);
+        animator.SetFloat("Vertical", 0.0f);
     }
 
     // Update is called once per frame
@@ -33,7 +38,8 @@ public class InputManager : MonoBehaviour
             // Move right:
             if (lastTime == 1f)
             {
-                Debug.Log("Moving right...");
+                isMoving = true;
+                //Debug.Log("Moving right...");
                 animator.SetFloat("Horizontal", 1.0f);
                 animator.SetFloat("Vertical", 0.0f);
                 tweener.AddTween(PacStudent.transform, PacStudent.transform.position, new Vector3(-8.3f, 4.34f, 0.0f), 1f);
@@ -43,7 +49,7 @@ public class InputManager : MonoBehaviour
             // Move down:
             if (lastTime == 2f)
             {
-                Debug.Log("Moving down...");
+                //Debug.Log("Moving down...");
                 animator.SetFloat("Horizontal", 0.0f);
                 animator.SetFloat("Vertical", -1.0f);
                 tweener.AddTween(PacStudent.transform, PacStudent.transform.position, new Vector3(-8.3f, 3.1f, 0.0f), 1f);
@@ -52,7 +58,7 @@ public class InputManager : MonoBehaviour
             // Move left:
             if (lastTime == 3f)
             {
-                Debug.Log("Moving left...");
+                //Debug.Log("Moving left...");
                 animator.SetFloat("Horizontal", -1.0f);
                 animator.SetFloat("Vertical", 0.0f);
                 tweener.AddTween(PacStudent.transform, PacStudent.transform.position, new Vector3(-10.22f, 3.1f, 0.0f), 1f);
@@ -61,7 +67,7 @@ public class InputManager : MonoBehaviour
             // Move up:
             if (lastTime == 4f)
             {
-                Debug.Log("Moving up...");
+                //Debug.Log("Moving up...");
                 animator.SetFloat("Horizontal", 0.0f);
                 animator.SetFloat("Vertical", 1.0f);
                 tweener.AddTween(PacStudent.transform, PacStudent.transform.position, new Vector3(-10.22f, 4.34f, 0.0f), 1f);

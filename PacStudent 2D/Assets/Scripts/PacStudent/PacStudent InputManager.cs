@@ -7,7 +7,7 @@ public class PacStudentMovement : MonoBehaviour
 {
     [SerializeField] private GameObject PacStudent;
 
-    private PacStudentTweener tweener;
+    private Tweener tweener;
     float timer;
     float lastTime;
     bool isMoving;
@@ -15,7 +15,7 @@ public class PacStudentMovement : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        tweener = GetComponent<PacStudentTweener>();
+        tweener = GetComponent<Tweener>();
     }
 
     // Update is called once per frame

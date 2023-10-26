@@ -2,16 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
     // 60% Band - In game UI Appearance:
     public RectTransform startScreen;
     public RectTransform gameHUD;
-    public RectTransform ghost1Canvas;
-    public RectTransform ghost2Canvas;
-    public RectTransform ghost3Canvas;
-    public RectTransform ghost4Canvas;
+    public Text ghostTimer;
+    private Button exitButton;
 
     // Start is called before the first frame update
     void Awake()
@@ -25,14 +24,15 @@ public class UIManager : MonoBehaviour
         if (gameHUD != null)
         {
             gameHUD.sizeDelta = new Vector2(Screen.width, Screen.height);
-            Debug.Log("gameHUD sizeDelta called.");
+            // Debug.Log("gameHUD sizeDelta called.");
         }
 
-        if (ghost1Canvas != null)
+        if (ghostTimer != null)
         {
-            ghost1Canvas.sizeDelta = new Vector2(Screen.width, Screen.height);
+            ghostTimer.enabled = false;
+            Debug.Log("Hiding ghostTimer called.");
         }
-        
+
     }
 
     // Update is called once per frame
@@ -45,5 +45,11 @@ public class UIManager : MonoBehaviour
     {
         DontDestroyOnLoad(this);
         SceneManager.LoadSceneAsync(1);
+    }
+
+    public void exitToStart()
+    {
+        Debug.Log("Exiting to start scene..");
+        SceneManager.LoadSceneAsync(0);
     }
 }

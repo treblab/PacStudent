@@ -1952,6 +1952,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73667774342d89b40a345fe725beb6e5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startScreen: {fileID: 1751545213}
+  gameHUD: {fileID: 0}
 --- !u!4 &2046429751
 Transform:
   m_ObjectHideFlags: 0

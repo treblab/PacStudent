@@ -19,12 +19,15 @@ public class PacStudentController: MonoBehaviour
 
     private char lastInput;
     private char currentInput;
+    private LevelGrid levelGrid;
 
     // Start is called before the first frame update
     void Start()
     {
-        tweener = GetComponent<Tweener>();
         isMoving = true;
+
+        tweener = GetComponent<Tweener>();
+        levelGrid = new LevelGrid();
 
         PacStudent = GameObject.FindWithTag("PacStudent");
 
@@ -62,7 +65,7 @@ public class PacStudentController: MonoBehaviour
                 Vector3 movementVector = PacStudent.transform.position + Vector3.up;
                 animator.SetFloat("Horizontal", 0.0f);
                 animator.SetFloat("Vertical", 1.0f);
-                tweener.AddTween(PacStudent.transform, PacStudent.transform.position, movementVector, 0.25f);
+                tweener.AddTween(PacStudent.transform, PacStudent.transform.position, movementVector, 0.2f);
                 ResetTime();
             }
 
@@ -73,7 +76,7 @@ public class PacStudentController: MonoBehaviour
                 Vector3 movementVector = PacStudent.transform.position + Vector3.left;
                 animator.SetFloat("Horizontal", -1.0f);
                 animator.SetFloat("Vertical", 0.0f);
-                tweener.AddTween(PacStudent.transform, PacStudent.transform.position, movementVector, 0.25f);
+                tweener.AddTween(PacStudent.transform, PacStudent.transform.position, movementVector, 0.2f);
             }
 
             // S - Move down:
@@ -83,7 +86,7 @@ public class PacStudentController: MonoBehaviour
                 Vector3 movementVector = PacStudent.transform.position + Vector3.down;
                 animator.SetFloat("Horizontal", 0.0f);
                 animator.SetFloat("Vertical", -1.0f);
-                tweener.AddTween(PacStudent.transform, PacStudent.transform.position, movementVector, 0.25f);
+                tweener.AddTween(PacStudent.transform, PacStudent.transform.position, movementVector, 0.2f);
             }
 
             // D - Move right:
@@ -93,7 +96,7 @@ public class PacStudentController: MonoBehaviour
                 Vector3 movementVector = PacStudent.transform.position + Vector3.right;
                 animator.SetFloat("Horizontal", 1.0f);
                 animator.SetFloat("Vertical", 0.0f);
-                tweener.AddTween(PacStudent.transform, PacStudent.transform.position, movementVector, 0.25f);
+                tweener.AddTween(PacStudent.transform, PacStudent.transform.position, movementVector, 0.2f);
             }
         }
     }

@@ -62,16 +62,14 @@ public class PacStudentController: MonoBehaviour
             // W - Move up:
             if (Input.GetKeyDown(KeyCode.W))
             {
-                Vector3 movementVector = levelGrid.TryMove(Vector2.up, PacStudent.transform.position);
-               
-
+                Vector3 movementVector = PacStudent.transform.position + Vector3.up;
                 animator.SetFloat("Horizontal", 0.0f);
                 animator.SetFloat("Vertical", 1.0f);
                 tweener.AddTween(PacStudent.transform, PacStudent.transform.position, movementVector, 0.2f);
                 lastInput = 'W';
 
                 ResetTime();
-                Debug.Log("Moving up..." + PacStudent.transform.position);
+                Debug.Log("Moving up..." + movementVector);
             }
 
             // A - Move left:
@@ -83,7 +81,7 @@ public class PacStudentController: MonoBehaviour
                 animator.SetFloat("Vertical", 0.0f);
                 tweener.AddTween(PacStudent.transform, PacStudent.transform.position, movementVector, 0.2f);
                 lastInput = 'A';
-                Debug.Log("Moving left..." + PacStudent.transform.position);
+                Debug.Log("Moving left..." + movementVector);
             }
 
             // S - Move down:
@@ -95,7 +93,7 @@ public class PacStudentController: MonoBehaviour
                 animator.SetFloat("Vertical", -1.0f);
                 tweener.AddTween(PacStudent.transform, PacStudent.transform.position, movementVector, 0.2f);
                 lastInput = 'S';
-                Debug.Log("Moving down..." + PacStudent.transform.position);
+                Debug.Log("Moving down..." + movementVector);
             }
 
             // D - Move right:
@@ -107,7 +105,7 @@ public class PacStudentController: MonoBehaviour
                 animator.SetFloat("Vertical", 0.0f);
                 tweener.AddTween(PacStudent.transform, PacStudent.transform.position, movementVector, 0.2f);
                 lastInput = 'D';
-                Debug.Log("Moving right..." + PacStudent.transform.position);
+                Debug.Log("Moving right..." + movementVector);
             }
         }
     }

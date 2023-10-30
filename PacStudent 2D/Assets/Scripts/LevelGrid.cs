@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LevelGrid : MonoBehaviour
+public class LevelGrid 
 {
 
     private int[,] levelMap =
@@ -35,25 +35,22 @@ public class LevelGrid : MonoBehaviour
         {2,6,4,0,0,4,5,4,0,0,0,4,5,4,4,5,4,0,0,0,4,5,4,0,0,4,6,5,2},
         {2,5,3,4,4,3,5,3,4,4,4,3,5,4,4,5,3,4,4,4,3,5,3,4,4,3,5,5,2},
         {2,5,5,5,5,5,5,5,5,5,5,5,5,4,4,5,5,5,5,5,5,5,5,5,5,5,5,5,2},
-        {1,2,2,2,2,2,2,2,2,2,2,2,2,7,7,2,2,2,2,2,2,2,2,2,2,2,2,2,1},
+        {1,2,2,2,2,2,2,2,2,2,2,2,2,7,7,2,2,2,2,2,2,2,2,2,2,2,2,2,1}, // bottom row
     };
 
     public Vector2Int WorldToGridPosition(Vector3 worldPosition)
     {
         int x = Mathf.FloorToInt(worldPosition.x);
-        int y = Mathf.FloorToInt(worldPosition.y);
+        int y = -Mathf.FloorToInt(worldPosition.y); // multiplying by -1 due to grid's WorldPosition.
         return new Vector2Int(x, y);
     }
 
     public bool IsWalkable(Vector2Int gridPosition)
     {
-        if (gridPosition.x < 0 || gridPosition.x >= levelMap.GetLength(1) || gridPosition.y < 0 || gridPosition.y >= levelMap.GetLength(0))
-        {
-            // Out of bounds
-            return false;
-        }
+        isOutOfBounds(gridPosition);
 
-        int value = levelMap[gridPosition.y, gridPosition.x];
+        int value = levelMap[-gridPosition.y, gridPosition.x];
+
         return value == 0 || value == 5 || value == 6;
     }
 
@@ -69,4 +66,14 @@ public class LevelGrid : MonoBehaviour
         return currentWorldPosition; // Return the current position if the move is not valid
     }
 
+    public bool isOutOfBounds(Vector2Int gridPosition)
+    {
+        if (gridPosition.x < 0 || gridPosition.x >= levelMap.GetLength(1) ||
+            gridPosition.y < 0 || gridPosition.y >= levelMap.GetLength(0))
+        {
+            // Out of bounds
+            return true;
+        }
+        return false;
+    }
 }

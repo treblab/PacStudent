@@ -62,7 +62,9 @@ public class PacStudentController: MonoBehaviour
             // W - Move up:
             if (Input.GetKeyDown(KeyCode.W))
             {
-                Vector3 movementVector = PacStudent.transform.position + Vector3.up;
+                Vector3 movementVector = levelGrid.TryMove(Vector2.up, PacStudent.transform.position);
+               
+
                 animator.SetFloat("Horizontal", 0.0f);
                 animator.SetFloat("Vertical", 1.0f);
                 tweener.AddTween(PacStudent.transform, PacStudent.transform.position, movementVector, 0.2f);

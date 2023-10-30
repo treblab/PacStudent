@@ -17,6 +17,9 @@ public class PacStudentController: MonoBehaviour
     float lastTime;
     bool isMoving;
 
+    private char lastInput;
+    private char currentInput;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -36,53 +39,62 @@ public class PacStudentController: MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // W - Move up:
-        if (Input.GetKeyDown("W"))
-        {
-            //Debug.Log("Moving up...");
-            Vector3 directionVec = new Vector3(-1, 1, 0);
-            Vector3 movementVector = PacStudent.transform.position + Vector3.one;
-
-            animator.SetFloat("Horizontal", 0.0f);
-            animator.SetFloat("Vertical", 1.0f);
-            tweener.AddTween(PacStudent.transform, PacStudent.transform.position, (PacStudent.transform.position + Vector3.one), 1.0f);
-            ResetTime();
-        }
-
-        // A - Move left:
-        if (Input.GetKeyDown("A"))
-        {
-            //Debug.Log("Moving left...");
-            animator.SetFloat("Horizontal", -1.0f);
-            animator.SetFloat("Vertical", 0.0f);
-            tweener.AddTween(PacStudent.transform, PacStudent.transform.position, new Vector3(-10.22f, 3.1f, 0.0f), 1f);
-        }
-
-        // S - Move down:
-        if (Input.GetKeyDown("S"))
-        {
-            //Debug.Log("Moving down...");
-            animator.SetFloat("Horizontal", 0.0f);
-            animator.SetFloat("Vertical", -1.0f);
-            tweener.AddTween(PacStudent.transform, PacStudent.transform.position, new Vector3(-8.3f, 3.1f, 0.0f), 1f);
-        }
-
-        // D - Move right:
-        if (Input.GetKeyDown("D"))
-        {
-            isMoving = true;
-            //Debug.Log("Moving right...");
-            animator.SetFloat("Horizontal", 1.0f);
-            animator.SetFloat("Vertical", 0.0f);
-            tweener.AddTween(PacStudent.transform, PacStudent.transform.position, new Vector3(-8.3f, 4.34f, 0.0f), 1f);
-            movementAudio.mute = false;
-            movementAudio.loop = true;
-        }
-
+        getPlayerInput();
     }
     private void ResetTime()
     {
         lastTime = -1f;
         timer = 0.0f;
+    }
+
+    private void getPlayerInput()
+    {
+        if (PacStudent != null)
+        {
+            movementAudio.mute = false;
+            movementAudio.loop = true;
+            isMoving = true;
+
+            // W - Move up:
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                //Debug.Log("Moving up...");
+                Vector3 movementVector = PacStudent.transform.position + Vector3.up;
+                animator.SetFloat("Horizontal", 0.0f);
+                animator.SetFloat("Vertical", 1.0f);
+                tweener.AddTween(PacStudent.transform, PacStudent.transform.position, movementVector, 0.25f);
+                ResetTime();
+            }
+
+            // A - Move left:
+            if (Input.GetKeyDown(KeyCode.A))
+            {
+                //Debug.Log("Moving left...");
+                Vector3 movementVector = PacStudent.transform.position + Vector3.left;
+                animator.SetFloat("Horizontal", -1.0f);
+                animator.SetFloat("Vertical", 0.0f);
+                tweener.AddTween(PacStudent.transform, PacStudent.transform.position, movementVector, 0.25f);
+            }
+
+            // S - Move down:
+            if (Input.GetKeyDown(KeyCode.S))
+            {
+                //Debug.Log("Moving down...");
+                Vector3 movementVector = PacStudent.transform.position + Vector3.down;
+                animator.SetFloat("Horizontal", 0.0f);
+                animator.SetFloat("Vertical", -1.0f);
+                tweener.AddTween(PacStudent.transform, PacStudent.transform.position, movementVector, 0.25f);
+            }
+
+            // D - Move right:
+            if (Input.GetKeyDown(KeyCode.D))
+            {
+                //Debug.Log("Moving right...");
+                Vector3 movementVector = PacStudent.transform.position + Vector3.right;
+                animator.SetFloat("Horizontal", 1.0f);
+                animator.SetFloat("Vertical", 0.0f);
+                tweener.AddTween(PacStudent.transform, PacStudent.transform.position, movementVector, 0.25f);
+            }
+        }
     }
 }

@@ -39,12 +39,10 @@ public class PacStudentController : MonoBehaviour
     {
         tweener = GetComponent<Tweener>();
         levelGrid = new LevelGrid();
-
         PacStudent = GameObject.FindWithTag("PacStudent");
         animator = PacStudent.GetComponent<Animator>();
         movementAudio = PacStudent.GetComponent<AudioSource>();
-
-        movementAudio.mute = true; // audio muted at the start as PacStudent is idle.
+        movementAudio.Play();
     }
 
     void Update()
@@ -56,8 +54,8 @@ public class PacStudentController : MonoBehaviour
                 TryMoveInDirection(currentInput);
             }
         }
-
         getPlayerInput();
+        playMovementAnimAndAudio();
     }
 
     private bool TryMoveInDirection(char direction)
@@ -78,9 +76,6 @@ public class PacStudentController : MonoBehaviour
     private void getPlayerInput()
     {
         if (PacStudent == null) return;
-
-        movementAudio.mute = false;
-        movementAudio.loop = true;
 
         foreach (var key in keyToChar.Keys)
         {
@@ -111,6 +106,29 @@ public class PacStudentController : MonoBehaviour
 
     private bool isLerping()
     {
-        return tweener.IsTweening(PacStudent.transform);
+        bool isTweening = tweener.IsTweening(PacStudent.transform);
+        animator.SetBool("isLerping", isTweening);
+
+        return isTweening;
+    }
+
+    private void playMovementAnimAndAudio()
+    {
+        if (!isLerping())
+        {
+            if (movementAudio.isPlaying)
+            {
+                movementAudio.Stop();
+            }
+            animator.SetBool("isLerping", false);
+        }
+        else
+        {
+            if (!movementAudio.isPlaying)
+            {
+                movementAudio.Play();
+            }
+            animator.SetBool("isLerping", true);
+        }
     }
 }

@@ -13,14 +13,12 @@ public class PacStudentController: MonoBehaviour
 
     private Tweener tweener;
 
-    float timer;
-    float lastTime;
     bool isMoving;
 
     private char lastInput;
-    private char currentInput;
+    // private char currentInput;
     private LevelGrid levelGrid;
-    bool isLerping;
+    // bool isLerping;
 
     // Start is called before the first frame update
     void Start()
@@ -45,11 +43,6 @@ public class PacStudentController: MonoBehaviour
     {
         getPlayerInput();
     }
-    private void ResetTime()
-    {
-        lastTime = -1f;
-        timer = 0.0f;
-    }
 
     private void getPlayerInput()
     {
@@ -62,51 +55,87 @@ public class PacStudentController: MonoBehaviour
             // W - Move up:
             if (Input.GetKeyDown(KeyCode.W))
             {
-                Vector3 movementVector = PacStudent.transform.position + Vector3.up;
-                animator.SetFloat("Horizontal", 0.0f);
-                animator.SetFloat("Vertical", 1.0f);
-                tweener.AddTween(PacStudent.transform, PacStudent.transform.position, movementVector, 0.2f);
-                lastInput = 'W';
+                // Inverted with Vector2.Down as the grid is inverted when compared to Unity's world coordinates.
+                Vector3 movementVector = levelGrid.TryMove(Vector2.down, PacStudent.transform.position);
+                Vector3 gridToWorldPosVec = gridToWorldPos(movementVector);
 
-                ResetTime();
-                Debug.Log("Moving up..." + movementVector);
+                Debug.Log("Movement vector: " + movementVector);
+                Debug.Log("GridToWorld Vec: " + gridToWorldPosVec);
+
+                if (movementVector != PacStudent.transform.position) // This checks if the move was valid
+                {
+                    animator.SetFloat("Horizontal", 0.0f);
+                    animator.SetFloat("Vertical", 1.0f);
+
+                    // Inversion for same reason as before.
+                    tweener.AddTween(PacStudent.transform, PacStudent.transform.position, gridToWorldPosVec, 0.2f);
+                    lastInput = 'W';
+                }
             }
 
             // A - Move left:
             if (Input.GetKeyDown(KeyCode.A))
             {
-                //Debug.Log("Moving left...");
-                Vector3 movementVector = PacStudent.transform.position + Vector3.left;
-                animator.SetFloat("Horizontal", -1.0f);
-                animator.SetFloat("Vertical", 0.0f);
-                tweener.AddTween(PacStudent.transform, PacStudent.transform.position, movementVector, 0.2f);
-                lastInput = 'A';
-                Debug.Log("Moving left..." + movementVector);
+                Vector3 movementVector = levelGrid.TryMove(Vector2.left, PacStudent.transform.position);
+                Vector3 gridToWorldPosVec = gridToWorldPos(movementVector);
+
+                Debug.Log("Movement vector: " + movementVector);
+                Debug.Log("GridToWorld Vec: " + gridToWorldPosVec);
+
+                if (movementVector != PacStudent.transform.position) // This checks if the move was valid
+                {
+                    animator.SetFloat("Horizontal", -1.0f);
+                    animator.SetFloat("Vertical", 0.0f);
+
+                    tweener.AddTween(PacStudent.transform, PacStudent.transform.position, gridToWorldPosVec, 0.2f);
+                    lastInput = 'A';
+                }
             }
 
             // S - Move down:
             if (Input.GetKeyDown(KeyCode.S))
             {
-                //Debug.Log("Moving down...");
-                Vector3 movementVector = PacStudent.transform.position + Vector3.down;
-                animator.SetFloat("Horizontal", 0.0f);
-                animator.SetFloat("Vertical", -1.0f);
-                tweener.AddTween(PacStudent.transform, PacStudent.transform.position, movementVector, 0.2f);
-                lastInput = 'S';
-                Debug.Log("Moving down..." + movementVector);
+                Vector3 movementVector = levelGrid.TryMove(Vector2.up, PacStudent.transform.position);
+                Vector3 gridToWorldPosVec = gridToWorldPos(movementVector);
+
+                Debug.Log("Movement vector: " + movementVector);
+                Debug.Log("GridToWorld Vec: " + gridToWorldPosVec);
+
+                if (movementVector != PacStudent.transform.position) // This checks if the move was valid
+                {
+                    animator.SetFloat("Horizontal", 0.0f);
+                    animator.SetFloat("Vertical", -1.0f);
+
+                    tweener.AddTween(PacStudent.transform, PacStudent.transform.position, gridToWorldPosVec, 0.2f);
+                    lastInput = 'S';
+                }
             }
 
             // D - Move right:
             if (Input.GetKeyDown(KeyCode.D))
             {
-                //Debug.Log("Moving right...");
-                Vector3 movementVector = PacStudent.transform.position + Vector3.right;
-                animator.SetFloat("Horizontal", 1.0f);
-                animator.SetFloat("Vertical", 0.0f);
-                tweener.AddTween(PacStudent.transform, PacStudent.transform.position, movementVector, 0.2f);
-                lastInput = 'D';
-                Debug.Log("Moving right..." + movementVector);
+                Vector3 movementVector = levelGrid.TryMove(Vector2.right, PacStudent.transform.position);
+                Vector3 gridToWorldPosVec = gridToWorldPos(movementVector);
+
+                Debug.Log("Movement vector: " + movementVector);
+                Debug.Log("GridToWorld Vec: " + gridToWorldPosVec);
+
+                if (movementVector != PacStudent.transform.position) // This checks if the move was valid
+                {
+                    animator.SetFloat("Horizontal", 1.0f);
+                    animator.SetFloat("Vertical", 0.0f);
+
+                    tweener.AddTween(PacStudent.transform, PacStudent.transform.position, gridToWorldPosVec, 0.2f);
+                    lastInput = 'D';
+                }
             }
         }
+    }
+
+    // Created as the world pos is negative and grid pos is positive (inverted)
+    private Vector3 gridToWorldPos(Vector3 gridPos)
+    {
+        Vector3 worldPos = new Vector3(gridPos.x, -gridPos.y);
+        return worldPos;
     }
 }

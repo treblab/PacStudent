@@ -57,4 +57,18 @@ public class Tweener : MonoBehaviour
         }
         return false;
     }
+
+    public bool IsTweening(Transform target = null)
+    {
+        if (target == null)
+        {
+            // If no target is provided, check if there are any active tweens at all
+            return activeTweens.Count > 0;
+        }
+        else
+        {
+            // If a target is provided, check if that specific target is tweening
+            return TweenExists(target);
+        }
+    }
 }

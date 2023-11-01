@@ -10,6 +10,7 @@ public class PacStudentController : MonoBehaviour
     [SerializeField] private GameObject PacStudent;
     [SerializeField] private Animator animator;
     [SerializeField] private AudioSource movementAudio;
+    public AudioClip collisionSound;
 
     private Tweener tweener;
     private LevelGrid levelGrid;
@@ -129,6 +130,14 @@ public class PacStudentController : MonoBehaviour
                 movementAudio.Play();
             }
             animator.SetBool("isLerping", true);
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("wall"))
+        {
+
         }
     }
 }

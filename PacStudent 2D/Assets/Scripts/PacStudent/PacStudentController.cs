@@ -4,13 +4,19 @@ using JetBrains.Annotations;
 using Unity.Services.Analytics;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.Tilemaps;
 
 public class PacStudentController : MonoBehaviour
 {
+    private float score;
+
     [SerializeField] private GameObject PacStudent;
     [SerializeField] private Animator animator;
     [SerializeField] private AudioSource movementAudio;
-    public AudioClip collisionSound;
+
+    public AudioSource collisionAudio;
+    public AudioClip[] collisions;
 
     private Tweener tweener;
     private LevelGrid levelGrid;
@@ -19,6 +25,11 @@ public class PacStudentController : MonoBehaviour
     private char currentInput;
 
     public ParticleSystem dustParticles;
+    public ParticleSystem wallCollisionParticles;
+
+    public Tilemap pelletTilemap;
+    [SerializeField] private Transform leftTeleporter;
+    [SerializeField] private Transform rightTeleporter;
 
     // Map of keys and their corresponding directions
     private Dictionary<char, Vector2> charToDirection = new Dictionary<char, Vector2>
@@ -51,20 +62,19 @@ public class PacStudentController : MonoBehaviour
     {
         tweener = GetComponent<Tweener>();
         levelGrid = new LevelGrid();
-        PacStudent = GameObject.FindWithTag("PacStudent");
-        animator = PacStudent.GetComponent<Animator>();
-        movementAudio = PacStudent.GetComponent<AudioSource>();
-        movementAudio.Play();
+
     }
 
     void Update()
     {
         if (!isLerping())
         {
-            if (!TryMoveInDirection(lastInput))
-            {
-                TryMoveInDirection(currentInput);
-            }
+            TryMoveInDirection(lastInput);
+
+            // if (!TryMoveInDirection(lastInput))
+            // {
+                // TryMoveInDirection(currentInput);
+            // }
         }
         getPlayerInput();
         playMovementAnimAndAudio();
@@ -156,7 +166,59 @@ public class PacStudentController : MonoBehaviour
     {
         if (collision.CompareTag("wall"))
         {
-
+            Debug.Log("PacStudent has collided with a wall. ");
+            collisionAudio.clip = collisions[0];
+            collisionAudio.Play();
+            wallCollisionParticles.Play();
         }
+
+        if (collision.CompareTag("pellet"))
+        {
+            Debug.Log("PacStudent has eaten a pellet. Position: " + PacStudent.transform.position);
+            collisionAudio.clip = collisions[1];
+            collisionAudio.volume = 0.25f;
+            collisionAudio.Play();
+            score += 10;
+
+            // Convert the world position of the collision to a cell position on the Tilemap
+            // Vector3Int cellPosition = pelletTilemap.WorldToCell(collision.transform.position);
+
+            // Set the tile at that cell position to null (i.e., remove the tile)
+            // pelletTilemap.SetTile(cellPosition, null);
+        }
+
+        if (collision.CompareTag("teleporter"))
+        {
+            // To allow PacStudent to teleport, end any tweens.
+            tweener.removeTween(PacStudent.transform);
+
+            if (collision.transform == leftTeleporter)
+            {
+                Debug.Log("PacStudent has collided with the left teleporter. ");
+                // Move PacStudent to just outside the right teleporter's position - otherwise he will teleport forever
+                PacStudent.transform.position = new Vector3(26.5f, -14);
+                lastInput = 'A';
+            }
+            else if (collision.transform == rightTeleporter)
+            {
+                Debug.Log("PacStudent has collided with the right teleporter. ");
+                // Move PacStudent to just outside the left teleporter's position
+                PacStudent.transform.position = new Vector3(1.5f, -14);
+                lastInput = 'D';
+            }
+        }
+
+        if (collision.CompareTag("cherry"))
+        {
+            Debug.Log("PacStudent has eaten a cherry. ");
+            score += 100;
+            Destroy(collision.gameObject);
+        }
+ 
+    }
+
+    public float getScore()
+    {
+        return score;
     }
 }

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public class Tweener : MonoBehaviour
 {
@@ -69,6 +70,18 @@ public class Tweener : MonoBehaviour
         {
             // If a target is provided, check if that specific target is tweening
             return TweenExists(target);
+        }
+    }
+
+    public void removeTween(Transform target)
+    {
+        for (int i = activeTweens.Count - 1; i >= 0; i--)
+        {
+            if (activeTweens[i].Target == target)
+            {
+                activeTweens.RemoveAt(i);
+                break; // Assuming one tween per target. If multiple tweens can exist for the same target, remove this line.
+            }
         }
     }
 }

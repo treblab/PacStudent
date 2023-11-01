@@ -18,6 +18,8 @@ public class PacStudentController : MonoBehaviour
     private char lastInput;
     private char currentInput;
 
+    public ParticleSystem dustParticles;
+
     // Map of keys and their corresponding directions
     private Dictionary<char, Vector2> charToDirection = new Dictionary<char, Vector2>
     {
@@ -34,6 +36,15 @@ public class PacStudentController : MonoBehaviour
         { KeyCode.A, 'A' },
         { KeyCode.S, 'S' },
         { KeyCode.D, 'D' }
+    };
+
+    // To rotate dust particles based on PacStudent movement
+    private Dictionary<Vector2, float> directionToRotation = new Dictionary<Vector2, float>
+    {
+        { Vector2.up, 0f },
+        { Vector2.down, 180f },
+        { Vector2.left, 90f },
+        { Vector2.right, -90f }
     };
 
     void Start()
@@ -92,6 +103,12 @@ public class PacStudentController : MonoBehaviour
         Vector3 gridToWorldPosVec = gridToWorldPos(targetPosition);
         SetAnimatorDirection(direction);
         tweener.AddTween(PacStudent.transform, PacStudent.transform.position, gridToWorldPosVec, 0.2f);
+
+        // Rotate the dustParticles based on the direction
+        if (directionToRotation.ContainsKey(direction))
+        {
+            dustParticles.transform.rotation = Quaternion.Euler(0, 0, directionToRotation[direction]);
+        }
     }
 
     private void SetAnimatorDirection(Vector2 direction)
@@ -120,6 +137,7 @@ public class PacStudentController : MonoBehaviour
             if (movementAudio.isPlaying)
             {
                 movementAudio.Stop();
+                dustParticles.Stop();
             }
             animator.SetBool("isLerping", false);
         }
@@ -128,6 +146,7 @@ public class PacStudentController : MonoBehaviour
             if (!movementAudio.isPlaying)
             {
                 movementAudio.Play();
+                dustParticles.Play();
             }
             animator.SetBool("isLerping", true);
         }

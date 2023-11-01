@@ -4,18 +4,35 @@ using JetBrains.Annotations;
 using Unity.Services.Analytics;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
+using UnityEngine.Tilemaps;
 
 public class PacStudentController : MonoBehaviour
 {
+    private float score;
+
     [SerializeField] private GameObject PacStudent;
     [SerializeField] private Animator animator;
     [SerializeField] private AudioSource movementAudio;
+
+    public AudioSource collisionAudio;
+    public AudioClip[] collisions;
 
     private Tweener tweener;
     private LevelGrid levelGrid;
 
     private char lastInput;
     private char currentInput;
+
+    public ParticleSystem dustParticles;
+    public ParticleSystem wallCollisionParticles;
+
+    public Tilemap pelletTilemap;
+    [SerializeField] private Transform leftTeleporter;
+    [SerializeField] private Transform rightTeleporter;
+
+    private GameObject ghostControllerObj;
+    private GhostController ghostController;
 
     // Map of keys and their corresponding directions
     private Dictionary<char, Vector2> charToDirection = new Dictionary<char, Vector2>
@@ -35,24 +52,33 @@ public class PacStudentController : MonoBehaviour
         { KeyCode.D, 'D' }
     };
 
+    // To rotate dust particles based on PacStudent movement
+    private Dictionary<Vector2, float> directionToRotation = new Dictionary<Vector2, float>
+    {
+        { Vector2.up, 0f },
+        { Vector2.down, 180f },
+        { Vector2.left, 90f },
+        { Vector2.right, -90f }
+    };
+
     void Start()
     {
         tweener = GetComponent<Tweener>();
         levelGrid = new LevelGrid();
-        PacStudent = GameObject.FindWithTag("PacStudent");
-        animator = PacStudent.GetComponent<Animator>();
-        movementAudio = PacStudent.GetComponent<AudioSource>();
-        movementAudio.Play();
+        ghostControllerObj = GameObject.Find("GhostController");
+        ghostController = ghostControllerObj.GetComponent<GhostController>();
     }
 
     void Update()
     {
         if (!isLerping())
         {
-            if (!TryMoveInDirection(lastInput))
-            {
-                TryMoveInDirection(currentInput);
-            }
+            TryMoveInDirection(lastInput);
+
+            // if (!TryMoveInDirection(lastInput))
+            // {
+                // TryMoveInDirection(currentInput);
+            // }
         }
         getPlayerInput();
         playMovementAnimAndAudio();
@@ -91,6 +117,12 @@ public class PacStudentController : MonoBehaviour
         Vector3 gridToWorldPosVec = gridToWorldPos(targetPosition);
         SetAnimatorDirection(direction);
         tweener.AddTween(PacStudent.transform, PacStudent.transform.position, gridToWorldPosVec, 0.2f);
+
+        // Rotate the dustParticles based on the direction
+        if (directionToRotation.ContainsKey(direction))
+        {
+            dustParticles.transform.rotation = Quaternion.Euler(0, 0, directionToRotation[direction]);
+        }
     }
 
     private void SetAnimatorDirection(Vector2 direction)
@@ -119,6 +151,7 @@ public class PacStudentController : MonoBehaviour
             if (movementAudio.isPlaying)
             {
                 movementAudio.Stop();
+                dustParticles.Stop();
             }
             animator.SetBool("isLerping", false);
         }
@@ -127,8 +160,76 @@ public class PacStudentController : MonoBehaviour
             if (!movementAudio.isPlaying)
             {
                 movementAudio.Play();
+                dustParticles.Play();
             }
             animator.SetBool("isLerping", true);
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.CompareTag("wall"))
+        {
+            Debug.Log("PacStudent has collided with a wall. ");
+            collisionAudio.clip = collisions[0];
+            collisionAudio.Play();
+            wallCollisionParticles.Play();
+        }
+
+        if (collision.CompareTag("pellet"))
+        {
+            // Debug.Log("PacStudent has eaten a pellet. Position: " + PacStudent.transform.position);
+            collisionAudio.clip = collisions[1];
+            collisionAudio.volume = 0.25f;
+            collisionAudio.Play();
+            score += 10;
+
+            // Convert the world position of the collision to a cell position on the Tilemap
+            // Vector3Int cellPosition = pelletTilemap.WorldToCell(collision.transform.position);
+
+            // Set the tile at that cell position to null (i.e., remove the tile)
+            // pelletTilemap.SetTile(cellPosition, null);
+        }
+
+        if (collision.CompareTag("teleporter"))
+        {
+            // To allow PacStudent to teleport, end any tweens.
+            tweener.removeTween(PacStudent.transform);
+
+            if (collision.transform == leftTeleporter)
+            {
+                Debug.Log("PacStudent has collided with the left teleporter. ");
+                // Move PacStudent to just outside the right teleporter's position - otherwise he will teleport forever
+                PacStudent.transform.position = new Vector3(26.5f, -14);
+                lastInput = 'A';
+            }
+            else if (collision.transform == rightTeleporter)
+            {
+                Debug.Log("PacStudent has collided with the right teleporter. ");
+                // Move PacStudent to just outside the left teleporter's position
+                PacStudent.transform.position = new Vector3(1.5f, -14);
+                lastInput = 'D';
+            }
+        }
+
+        if (collision.CompareTag("cherry"))
+        {
+            Debug.Log("PacStudent has eaten a cherry. ");
+            score += 100;
+            Destroy(collision.gameObject); 
+        }
+
+        if (collision.CompareTag("powerPellet"))
+        {
+            Debug.Log("PacStudent has collided with a power pellet. ");
+            Destroy(collision.gameObject);
+            ghostController.PowerPelletEaten();
+        }
+ 
+    }
+
+    public float getScore()
+    {
+        return score;
     }
 }

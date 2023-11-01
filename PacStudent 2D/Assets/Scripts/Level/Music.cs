@@ -10,7 +10,7 @@ public class Music : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("Intro BGM is playing: " + introBGM.isPlaying);
+        // Debug.Log("Intro BGM is playing: " + introBGM.isPlaying);
         if (!introBGM.isPlaying && !ghostBGM.isPlaying)
         {
             ghostBGM.Play();

@@ -8,6 +8,11 @@ TagManager:
   - BGM
   - introBGM
   - ghostBGM
+  - wall
+  - pellet
+  - teleporter
+  - cherry
+  - powerPellet
   layers:
   - Default
   - TransparentFX

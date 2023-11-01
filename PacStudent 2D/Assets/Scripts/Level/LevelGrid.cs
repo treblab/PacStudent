@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class LevelGrid 
 {
+    public bool validMove;
 
     private static int[,] levelMap =
     {
@@ -49,12 +50,14 @@ public class LevelGrid
     {
         if (isOutOfBounds(gridPosition))
         {
+            validMove = false;
             return false;
         }
 
         int value = levelMap[gridPosition.y, gridPosition.x];
 
         // 0, 5 and 6 are walkable positions.
+        validMove = value == 0 || value == 5 || value == 6;
 
         return value == 0 || value == 5 || value == 6;
     }

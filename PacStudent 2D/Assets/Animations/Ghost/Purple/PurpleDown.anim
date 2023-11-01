@@ -6,7 +6,7 @@ AnimationClip:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Right
+  m_Name: PurpleDown
   serializedVersion: 7
   m_Legacy: 0
   m_Compressed: 0
@@ -21,9 +21,9 @@ AnimationClip:
   - serializedVersion: 2
     curve:
     - time: 0
-      value: {fileID: 381708164, guid: b7879b77f2465d149910656056fc532b, type: 3}
+      value: {fileID: 813610768, guid: 32524d5887ed04d4c9caa0928fd3bc78, type: 3}
     - time: 0.98333335
-      value: {fileID: 381708164, guid: b7879b77f2465d149910656056fc532b, type: 3}
+      value: {fileID: 813610768, guid: 32524d5887ed04d4c9caa0928fd3bc78, type: 3}
     attribute: m_Sprite
     path: 
     classID: 212
@@ -46,8 +46,8 @@ AnimationClip:
       isIntCurve: 0
       isSerializeReferenceCurve: 0
     pptrCurveMapping:
-    - {fileID: 381708164, guid: b7879b77f2465d149910656056fc532b, type: 3}
-    - {fileID: 381708164, guid: b7879b77f2465d149910656056fc532b, type: 3}
+    - {fileID: 813610768, guid: 32524d5887ed04d4c9caa0928fd3bc78, type: 3}
+    - {fileID: 813610768, guid: 32524d5887ed04d4c9caa0928fd3bc78, type: 3}
   m_AnimationClipSettings:
     serializedVersion: 2
     m_AdditiveReferencePoseClip: {fileID: 0}

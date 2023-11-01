@@ -31,6 +31,9 @@ public class PacStudentController : MonoBehaviour
     [SerializeField] private Transform leftTeleporter;
     [SerializeField] private Transform rightTeleporter;
 
+    private GameObject ghostControllerObj;
+    private GhostController ghostController;
+
     // Map of keys and their corresponding directions
     private Dictionary<char, Vector2> charToDirection = new Dictionary<char, Vector2>
     {
@@ -62,7 +65,8 @@ public class PacStudentController : MonoBehaviour
     {
         tweener = GetComponent<Tweener>();
         levelGrid = new LevelGrid();
-
+        ghostControllerObj = GameObject.Find("GhostController");
+        ghostController = ghostControllerObj.GetComponent<GhostController>();
     }
 
     void Update()
@@ -212,14 +216,14 @@ public class PacStudentController : MonoBehaviour
         {
             Debug.Log("PacStudent has eaten a cherry. ");
             score += 100;
-            Destroy(collision.gameObject);
+            Destroy(collision.gameObject); 
         }
 
         if (collision.CompareTag("powerPellet"))
         {
             Debug.Log("PacStudent has collided with a power pellet. ");
             Destroy(collision.gameObject);
-
+            ghostController.PowerPelletEaten();
         }
  
     }

@@ -174,7 +174,7 @@ public class PacStudentController : MonoBehaviour
 
         if (collision.CompareTag("pellet"))
         {
-            Debug.Log("PacStudent has eaten a pellet. Position: " + PacStudent.transform.position);
+            // Debug.Log("PacStudent has eaten a pellet. Position: " + PacStudent.transform.position);
             collisionAudio.clip = collisions[1];
             collisionAudio.volume = 0.25f;
             collisionAudio.Play();
@@ -213,6 +213,13 @@ public class PacStudentController : MonoBehaviour
             Debug.Log("PacStudent has eaten a cherry. ");
             score += 100;
             Destroy(collision.gameObject);
+        }
+
+        if (collision.CompareTag("powerPellet"))
+        {
+            Debug.Log("PacStudent has collided with a power pellet. ");
+            Destroy(collision.gameObject);
+
         }
  
     }

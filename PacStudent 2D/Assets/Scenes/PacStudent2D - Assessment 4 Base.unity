@@ -1717,6 +1717,7 @@ GameObject:
   m_Component:
   - component: {fileID: 297263556}
   - component: {fileID: 297263557}
+  - component: {fileID: 297263558}
   m_Layer: 0
   m_Name: Ghost (Purple)
   m_TagString: Untagged
@@ -1792,6 +1793,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &297263558
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 297263555}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 90c8f2e00cb97064ab04e99b5f4651d8, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &384601113
 GameObject:
   m_ObjectHideFlags: 0
@@ -8349,6 +8370,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1128339495}
   - component: {fileID: 1128339496}
+  - component: {fileID: 1128339497}
   m_Layer: 0
   m_Name: 'Ghost (Green) '
   m_TagString: Untagged
@@ -8424,6 +8446,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1128339497
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1128339494}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: bb15f44f3f7605a44977ef60a09f4802, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &1234570820
 GameObject:
   m_ObjectHideFlags: 0
@@ -11730,6 +11772,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ghostAnimators:
   - {fileID: 1942750800}
+  - {fileID: 1128339497}
+  - {fileID: 1829919875}
+  - {fileID: 297263558}
   backgroundMusic: {fileID: 400959855}
   scaredMusic: {fileID: 8300000, guid: 3a9037b76359f8a41830ab118956c2db, type: 3}
   normalMusic: {fileID: 8300000, guid: 61de046ede6737c448a7515a3bb38154, type: 3}
@@ -24348,6 +24393,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1829919873}
   - component: {fileID: 1829919874}
+  - component: {fileID: 1829919875}
   m_Layer: 0
   m_Name: 'Ghost (Orange) '
   m_TagString: Untagged
@@ -24423,6 +24469,26 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1829919875
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1829919872}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: f55ba72824ea0214ab3dbd4842fd12df, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
 --- !u!1 &1926091463
 GameObject:
   m_ObjectHideFlags: 0

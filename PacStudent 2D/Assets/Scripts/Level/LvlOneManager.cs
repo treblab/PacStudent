@@ -155,17 +155,11 @@ public class LvlOneManager : MonoBehaviour
         // StartGameTimer();
     }
 
-    private void updateHighScore()
-    {
-        int highScore = PlayerPrefs.GetInt("HighScore", 0);
-        string highScoreTime = PlayerPrefs.GetString("HighScoreTime", "");
-    }
-
     private void SaveHighScoreAndTime()
     {
         int highScore = PlayerPrefs.GetInt("HighScore", 0);
-
-        PlayerPrefs.SetString("LastTime", gameTimer.GetCurrentTime());
+        Debug.Log(gameTimer.GetCurrentTime());
+        PlayerPrefs.SetString("LastTime", gameTimer.getCurrentTimeText());
         PlayerPrefs.Save();
 
         // Check if the current score is higher than the high score
@@ -179,20 +173,13 @@ public class LvlOneManager : MonoBehaviour
 
     public void GameOver()
     {
-        // Show Game Over Text
         gameOverText.enabled = true;
-
         // Stop all player and ghost movement
         pacStudentController.togglePacStudentMovement(false);
         // Stop all ghosts not needed as I did not get to the 90% band.
 
-        // Pause the Game Timer
         gameTimer.StopTimer();
-
-        // Save High Score and Time if conditions are met
         SaveHighScoreAndTime();
-
-        // Wait for 3 seconds and load the Start Scene
         StartCoroutine(WaitAndLoadStartScene());
     }
 
@@ -200,7 +187,6 @@ public class LvlOneManager : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
         SceneManager.LoadScene("StartScene");
-        // updateHighScore();
     }
 
 }

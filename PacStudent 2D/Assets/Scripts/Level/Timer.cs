@@ -47,4 +47,9 @@ public class Timer : MonoBehaviour
         TimeSpan timeSpan = TimeSpan.FromSeconds(elapsedTime);
         return timeSpan.ToString(@"hh\:mm\:ss");
     }
+
+    public string getCurrentTimeText()
+    {
+        return timerText.text;
+    }
 }

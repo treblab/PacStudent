@@ -1,0 +1,29 @@
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+public class StartSceneUIManager : MonoBehaviour
+{
+    public Text highScoreText; 
+    public Text highScoreTimeText;
+
+    void Start()
+    {
+        LoadHighScoreAndTime();
+    }
+
+    private void LoadHighScoreAndTime()
+    {
+        int highScore = PlayerPrefs.GetInt("HighScore", 0);
+        string highScoreTime = PlayerPrefs.GetString("HighScoreTime", "00:00:00");
+
+        highScoreText.text = "High Score: " + highScore.ToString();
+        highScoreTimeText.text = "Best Time: " + highScoreTime;
+    }
+
+    public void LoadLevelOne()
+    {
+        SceneManager.LoadSceneAsync(1);
+    }
+}
+

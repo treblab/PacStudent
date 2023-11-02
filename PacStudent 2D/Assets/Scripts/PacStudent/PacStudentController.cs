@@ -274,7 +274,6 @@ public class PacStudentController : MonoBehaviour
 
     }
 
-    //80% band - helper methods below:
     private void RespawnPacStudent()
     {
         tweener.removeTween(PacStudent.transform);

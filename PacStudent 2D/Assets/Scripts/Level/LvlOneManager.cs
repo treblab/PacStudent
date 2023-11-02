@@ -22,6 +22,8 @@ public class LvlOneManager : MonoBehaviour
     public Timer gameTimer; 
     public Text gameOverText;
 
+    public AudioSource bgmPlayer;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -147,12 +149,7 @@ public class LvlOneManager : MonoBehaviour
         roundStartTimer.enabled = false;
         pacStudentController.togglePacStudentMovement(true);
         gameTimer.StartTimer();
-
-        // Start the background music
-        // backgroundMusic.Play();
-
-        // Start the game timer if you have one
-        // StartGameTimer();
+        bgmPlayer.Play();
     }
 
     private void SaveHighScoreAndTime()

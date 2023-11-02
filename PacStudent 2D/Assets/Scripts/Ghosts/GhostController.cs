@@ -10,7 +10,6 @@ public class GhostController : MonoBehaviour
     [SerializeField] private AudioSource backgroundMusic;
     [SerializeField] private AudioClip[] ghostMusicClips;
     
-    [SerializeField] private Text ghostTimer; 
     [SerializeField] private float scaredDuration = 10f;
 
     private Coroutine scaredTimerCoroutine;

@@ -10,6 +10,7 @@ public class Timer : MonoBehaviour
     public Text timerText;
     private TimeSpan timePlaying;
     private bool timerGoing;
+    private float elapsedTime;
 
     void Start()
     {
@@ -39,5 +40,11 @@ public class Timer : MonoBehaviour
             timerText.text = timePlaying.ToString("hh':'mm':'ss");
             yield return new WaitForSeconds(1);
         }
+    }
+
+    public string GetCurrentTime()
+    {
+        TimeSpan timeSpan = TimeSpan.FromSeconds(elapsedTime);
+        return timeSpan.ToString(@"hh\:mm\:ss");
     }
 }

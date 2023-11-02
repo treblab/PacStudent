@@ -24,10 +24,11 @@ public class UIManager : MonoBehaviour
     private PacStudentController pacStudentController;
     public Timer gameTimer;
     public Text highScoreText;
+    public Text gameOverText;
 
     void Awake()
     {
-         StartCoroutine(RoundStartCountdown()); // FOR TESTING DELETE BEFORE SUBMISSION
+        StartCoroutine(RoundStartCountdown()); // FOR TESTING DELETE BEFORE SUBMISSION
 
         if (pacStudent != null)
         {
@@ -44,6 +45,10 @@ public class UIManager : MonoBehaviour
             ghostTimer.enabled = false;
         }
 
+        if (gameOverText != null)
+        {
+            gameOverText.enabled = false;
+        }
     }
 
     public void LoadLevelOne()
@@ -67,7 +72,7 @@ public class UIManager : MonoBehaviour
 
     public void updateScore()
     {
-        if(scoreText != null)
+        if (scoreText != null)
         {
             scoreText.text = "Score: " + currentScore.ToString();
         }
@@ -112,7 +117,7 @@ public class UIManager : MonoBehaviour
         --amountOfLives;
         if (amountOfLives >= 0)
         {
-           lives[amountOfLives].enabled = false;
+            lives[amountOfLives].enabled = false;
         }
     }
 
@@ -156,4 +161,50 @@ public class UIManager : MonoBehaviour
         string highScoreTime = PlayerPrefs.GetString("HighScoreTime", "00:00:00");
         highScoreText.text = "High Score: " + highScore + " Time: " + highScoreTime;
     }
+
+    private void SaveHighScoreAndTime()
+    {
+        int savedHighScore = PlayerPrefs.GetInt("HighScore", 0);
+        string savedTime = PlayerPrefs.GetString("HighScoreTime", "00:00:00");
+
+        bool newRecord = false;
+        if (currentScore > savedHighScore)
+        {
+            newRecord = true;
+        }
+        else if (currentScore == savedHighScore)
+        {
+            if (string.CompareOrdinal(gameTimer.GetCurrentTime(), savedTime) < 0)
+            {
+                newRecord = true;
+            }
+        }
+    }
+
+    public void GameOver()
+    {
+        // Show Game Over Text
+        gameOverText.enabled = true;
+
+        // Stop all player and ghost movement
+        pacStudentController.togglePacStudentMovement(false);
+        // Stop all ghosts not needed as I did not get to the 90% band.
+
+        // Pause the Game Timer
+        gameTimer.StopTimer();
+
+        // Save High Score and Time if conditions are met
+        SaveHighScoreAndTime();
+
+        // Wait for 3 seconds and load the Start Scene
+        StartCoroutine(WaitAndLoadStartScene());
+    }
+
+    private IEnumerator WaitAndLoadStartScene()
+    {
+        yield return new WaitForSeconds(3f);
+        SceneManager.LoadScene("StartScene");
+        updateHighScore();
+    }
+
 }

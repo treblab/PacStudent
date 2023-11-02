@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.SearchService;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
@@ -20,6 +22,8 @@ public class UIManager : MonoBehaviour
     public Text roundStartTimer;
     public GameObject pacStudent;
     private PacStudentController pacStudentController;
+    public Timer gameTimer;
+    public Text highScoreText;
 
     void Awake()
     {
@@ -116,10 +120,9 @@ public class UIManager : MonoBehaviour
     {
         if (!roundStartTimer)
         {
-            Debug.Log("Round start time is null! ");
+            Debug.Log("Round start timer is null! ");
         }
 
-        Debug.Log(roundStartTimer.enabled);
         roundStartTimer.enabled = true; // Make sure the countdown text is visible
 
         // Countdown from 3 to 1 then show "GO!"
@@ -138,6 +141,7 @@ public class UIManager : MonoBehaviour
         // Hide the countdown text and start the game, allowing pacstudent to move.
         roundStartTimer.enabled = false;
         pacStudentController.togglePacStudentMovement(true);
+        gameTimer.StartTimer();
 
         // Start the background music
         // backgroundMusic.Play();
@@ -146,8 +150,10 @@ public class UIManager : MonoBehaviour
         // StartGameTimer();
     }
 
-    private void initialiseHUD()
+    private void updateHighScore()
     {
-        // Canvas.
+        int highScore = PlayerPrefs.GetInt("HighScore", 0);
+        string highScoreTime = PlayerPrefs.GetString("HighScoreTime", "00:00:00");
+        highScoreText.text = "High Score: " + highScore + " Time: " + highScoreTime;
     }
 }

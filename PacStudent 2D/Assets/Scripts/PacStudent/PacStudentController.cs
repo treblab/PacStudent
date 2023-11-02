@@ -77,7 +77,6 @@ public class PacStudentController : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("Can pacstudent move: " + pacStudentCanMove);
         if (!pacStudentCanMove) return;
 
         if (!isLerping())

@@ -6,10 +6,8 @@ using UnityEngine.UI;
 public class GhostController : MonoBehaviour
 {
     [SerializeField] private List<GameObject> ghostObjects;
-    
     [SerializeField] private AudioSource backgroundMusic;
     [SerializeField] private AudioClip[] ghostMusicClips;
-    
     [SerializeField] private float scaredDuration = 10f;
 
     private Coroutine scaredTimerCoroutine;
@@ -111,7 +109,6 @@ public class GhostController : MonoBehaviour
                 ghostAnimator.SetBool("isNormal", true);
             }
             ghost.tag = "normalGhost";
-            Debug.Log("Ghost back to normal. ");
         }
     }
 }

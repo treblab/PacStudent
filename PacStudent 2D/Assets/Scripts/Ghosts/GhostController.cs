@@ -46,7 +46,6 @@ public class GhostController : MonoBehaviour
 
         // When method is called, set ghosts to be Scared.
 
-
         while (timer > 0)
         {
             yield return new WaitForSeconds(1f);
@@ -63,7 +62,6 @@ public class GhostController : MonoBehaviour
                     ghost.tag = "recoveringGhost";
                 }
             }
-
         }
 
         // After the timer ends, set the Ghosts back to their "Walking" states
@@ -82,8 +80,6 @@ public class GhostController : MonoBehaviour
 
     public void scaredGhostEaten(GameObject ghostEaten)
     {
-        Debug.Log("Setting tags...");
-
         var ghostAnimator = ghostEaten.GetComponent<Animator>();
         if (ghostAnimator != null)
         {

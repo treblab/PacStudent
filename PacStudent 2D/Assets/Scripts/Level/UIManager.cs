@@ -13,15 +13,18 @@ public class UIManager : MonoBehaviour
     private Button exitButton;
     public Text scoreText;
 
+    // 80% Band - Collisions, UI updates and Saving High Scores:
     public Image[] lives;
     private int amountOfLives = 3;
-
     private int currentScore = 0;
     private Coroutine ghostTimerCoroutine;
+    public Text roundStartTimer;
+    private PacStudentController pacStudentController;
 
-    // Start is called before the first frame update
     void Awake()
-    {
+    { 
+        pacStudentController = GameObject.FindWithTag("PacStudent").GetComponent<PacStudentController>();
+
         if (startScreen != null)
         {
             startScreen.sizeDelta = new Vector2(Screen.width, Screen.height);
@@ -37,15 +40,19 @@ public class UIManager : MonoBehaviour
         if (ghostTimer != null)
         {
             ghostTimer.enabled = false;
-            Debug.Log("Hiding ghostTimer called.");
         }
 
+        if (roundStartTimer != null)
+        {
+            roundStartTimer.enabled = false;  
+        }
     }
 
     public void LoadLevelOne()
     {
         DontDestroyOnLoad(this);
         SceneManager.LoadSceneAsync(1);
+        StartCoroutine(RoundStartCountdown());
     }
 
     public void exitToStart()
@@ -109,5 +116,33 @@ public class UIManager : MonoBehaviour
         {
            lives[amountOfLives].enabled = false;
         }
+    }
+
+    private IEnumerator RoundStartCountdown()
+    {
+        roundStartTimer.enabled = true; // Make sure the countdown text is visible
+
+        // Countdown from 3 to 1 then show "GO!"
+        roundStartTimer.text = "3";
+        yield return new WaitForSeconds(1f);
+
+        roundStartTimer.text = "2";
+        yield return new WaitForSeconds(1f);
+
+        roundStartTimer.text = "1";
+        yield return new WaitForSeconds(1f);
+
+        roundStartTimer.text = "GO!";
+        yield return new WaitForSeconds(1f);
+
+        // Hide the countdown text and start the game, allowing pacstudent to move.
+        roundStartTimer.enabled = false;
+        // pacStudentController.togglePacStudentMovement(true);
+
+        // Start the background music
+        // backgroundMusic.Play();
+
+        // Start the game timer if you have one
+        // StartGameTimer();
     }
 }

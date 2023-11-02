@@ -27,8 +27,8 @@ public class PacStudentController : MonoBehaviour
     public ParticleSystem wallCollisionParticles;
 
     public Tilemap pelletTilemap;
-    [SerializeField] private Transform leftTeleporter;
-    [SerializeField] private Transform rightTeleporter;
+    public Transform leftTeleporter;
+    public Transform rightTeleporter;
 
     private GameObject ghostControllerObj;
     private GhostController ghostController;
@@ -63,6 +63,9 @@ public class PacStudentController : MonoBehaviour
         { Vector2.right, -90f }
     };
 
+    // To ensure PacStudent doesnt move until the countdown is finished:
+    private bool pacStudentCanMove = true;
+
     void Start()
     {
         tweener = GetComponent<Tweener>();
@@ -74,6 +77,8 @@ public class PacStudentController : MonoBehaviour
 
     void Update()
     {
+        if (!pacStudentCanMove) return;
+
         if (!isLerping())
         {
             TryMoveInDirection(lastInput);
@@ -174,7 +179,6 @@ public class PacStudentController : MonoBehaviour
     {
         if (collision.CompareTag("wall"))
         {
-            Debug.Log("PacStudent has collided with a wall. ");
             collisionAudio.clip = collisions[0];
             collisionAudio.volume = 2.0f;
             collisionAudio.Play();
@@ -183,7 +187,6 @@ public class PacStudentController : MonoBehaviour
 
         if (collision.CompareTag("pellet"))
         {
-            Debug.Log("PacStudent has eaten a pellet. Position: ");
             collisionAudio.clip = collisions[1];
             collisionAudio.volume = 0.1f;
             collisionAudio.Play();
@@ -211,14 +214,12 @@ public class PacStudentController : MonoBehaviour
 
             if (collision.transform == leftTeleporter)
             {
-                Debug.Log("PacStudent has collided with the left teleporter. ");
                 // Move PacStudent to just outside the right teleporter's position - otherwise he will teleport forever
                 PacStudent.transform.position = new Vector3(26.5f, -14);
                 lastInput = 'A';
             }
             else if (collision.transform == rightTeleporter)
             {
-                Debug.Log("PacStudent has collided with the right teleporter. ");
                 // Move PacStudent to just outside the left teleporter's position
                 PacStudent.transform.position = new Vector3(1.5f, -14);
                 lastInput = 'D';
@@ -238,7 +239,6 @@ public class PacStudentController : MonoBehaviour
 
         if (collision.CompareTag("powerPellet"))
         {
-            Debug.Log("PacStudent has collided with a power pellet. ");
             Destroy(collision.gameObject);
             ghostController.PowerPelletEaten();
             uiManager.startGhostTimer();
@@ -269,10 +269,15 @@ public class PacStudentController : MonoBehaviour
 
     }
 
+    //80% band - helper methods below:
     private void RespawnPacStudent()
     {
         tweener.removeTween(PacStudent.transform);
         PacStudent.transform.position = new Vector3(1,-1);
     }
 
+    public void togglePacStudentMovement(bool canMove)
+    {
+        pacStudentCanMove = canMove;
+    }
 }

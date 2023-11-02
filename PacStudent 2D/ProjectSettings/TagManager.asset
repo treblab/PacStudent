@@ -13,6 +13,10 @@ TagManager:
   - teleporter
   - cherry
   - powerPellet
+  - normalGhost
+  - scaredGhost
+  - recoveringGhost
+  - deadGhost
   layers:
   - Default
   - TransparentFX

@@ -9,8 +9,6 @@ using UnityEngine.Tilemaps;
 
 public class PacStudentController : MonoBehaviour
 {
-    private float score;
-
     [SerializeField] private GameObject PacStudent;
     [SerializeField] private Animator animator;
     [SerializeField] private AudioSource movementAudio;
@@ -20,6 +18,7 @@ public class PacStudentController : MonoBehaviour
 
     private Tweener tweener;
     private LevelGrid levelGrid;
+    private UIManager uiManager;
 
     private char lastInput;
     private char currentInput;
@@ -28,11 +27,14 @@ public class PacStudentController : MonoBehaviour
     public ParticleSystem wallCollisionParticles;
 
     public Tilemap pelletTilemap;
-    [SerializeField] private Transform leftTeleporter;
-    [SerializeField] private Transform rightTeleporter;
+    public Transform leftTeleporter;
+    public Transform rightTeleporter;
 
     private GameObject ghostControllerObj;
     private GhostController ghostController;
+
+    private bool pacStudentDead = false; // PacStudent will always be alive at the start of the game.
+    public ParticleSystem pacStudentDeathParticles;
 
     // Map of keys and their corresponding directions
     private Dictionary<char, Vector2> charToDirection = new Dictionary<char, Vector2>
@@ -61,20 +63,27 @@ public class PacStudentController : MonoBehaviour
         { Vector2.right, -90f }
     };
 
+    // To ensure PacStudent doesnt move until the countdown is finished:
+    private bool pacStudentCanMove = false;
+
     void Start()
     {
         tweener = GetComponent<Tweener>();
         levelGrid = new LevelGrid();
+        uiManager = GameObject.Find("Managers").GetComponent<UIManager>();
         ghostControllerObj = GameObject.Find("GhostController");
         ghostController = ghostControllerObj.GetComponent<GhostController>();
     }
 
     void Update()
     {
+        if (!pacStudentCanMove) return;
+
         if (!isLerping())
         {
             TryMoveInDirection(lastInput);
 
+            // Uncomment this for smoother movement (not according to the marking criteria)
             // if (!TryMoveInDirection(lastInput))
             // {
                 // TryMoveInDirection(currentInput);
@@ -170,25 +179,32 @@ public class PacStudentController : MonoBehaviour
     {
         if (collision.CompareTag("wall"))
         {
-            Debug.Log("PacStudent has collided with a wall. ");
             collisionAudio.clip = collisions[0];
+            collisionAudio.volume = 2.0f;
             collisionAudio.Play();
             wallCollisionParticles.Play();
         }
 
         if (collision.CompareTag("pellet"))
         {
-            // Debug.Log("PacStudent has eaten a pellet. Position: " + PacStudent.transform.position);
             collisionAudio.clip = collisions[1];
-            collisionAudio.volume = 0.25f;
+            collisionAudio.volume = 0.1f;
             collisionAudio.Play();
-            score += 10;
+            uiManager.addScore(10);
 
             // Convert the world position of the collision to a cell position on the Tilemap
-            // Vector3Int cellPosition = pelletTilemap.WorldToCell(collision.transform.position);
 
-            // Set the tile at that cell position to null (i.e., remove the tile)
-            // pelletTilemap.SetTile(cellPosition, null);
+            // Get the collision point in world space
+            Vector3 hitPosition = collision.ClosestPoint(transform.position);
+
+            // Convert the world position to a cell position on the Tilemap
+            Vector3Int cellPosition = pelletTilemap.WorldToCell(hitPosition);
+
+            // Optionally, get the world position of the center of the tile
+            Vector3 tileCenterPosition = pelletTilemap.GetCellCenterWorld(cellPosition);
+
+            // Remove the tile/destroty the pellet
+            pelletTilemap.SetTile(cellPosition, null);
         }
 
         if (collision.CompareTag("teleporter"))
@@ -198,14 +214,12 @@ public class PacStudentController : MonoBehaviour
 
             if (collision.transform == leftTeleporter)
             {
-                Debug.Log("PacStudent has collided with the left teleporter. ");
                 // Move PacStudent to just outside the right teleporter's position - otherwise he will teleport forever
                 PacStudent.transform.position = new Vector3(26.5f, -14);
                 lastInput = 'A';
             }
             else if (collision.transform == rightTeleporter)
             {
-                Debug.Log("PacStudent has collided with the right teleporter. ");
                 // Move PacStudent to just outside the left teleporter's position
                 PacStudent.transform.position = new Vector3(1.5f, -14);
                 lastInput = 'D';
@@ -215,21 +229,55 @@ public class PacStudentController : MonoBehaviour
         if (collision.CompareTag("cherry"))
         {
             Debug.Log("PacStudent has eaten a cherry. ");
-            score += 100;
+            collisionAudio.clip = collisions[1];
+            collisionAudio.volume = 0.1f;
+            collisionAudio.Play(); // Adding sound to cherry collision to make it more fun :)
+
+            uiManager.addScore(100);
             Destroy(collision.gameObject); 
         }
 
         if (collision.CompareTag("powerPellet"))
         {
-            Debug.Log("PacStudent has collided with a power pellet. ");
             Destroy(collision.gameObject);
             ghostController.PowerPelletEaten();
+            uiManager.startGhostTimer();
         }
- 
+
+        if (collision.CompareTag("normalGhost"))
+        {
+            Debug.Log("PacStudent has collided with a Ghost in walking state. ");
+
+            // Declare as dead and have death effect play for a set amount of time (3s)
+            pacStudentDead = true;
+            ParticleSystem deathEffectInstance = Instantiate(pacStudentDeathParticles, transform.position, Quaternion.identity);
+            Destroy(deathEffectInstance, 3.0f);
+            uiManager.removeLives();
+
+            // Re-instantiate PacStudent at the top-left, and wait for player input.
+            RespawnPacStudent();
+            pacStudentDead = false;
+        }
+
+        if (collision.CompareTag("scaredGhost") || collision.CompareTag("recoveringGhost"))
+        {
+            Debug.Log("PacStudent has collided with a Ghost in Scared State. ");
+            
+            ghostController.scaredGhostEaten(collision.gameObject);
+            uiManager.addScore(300);
+        }
+
     }
 
-    public float getScore()
+    //80% band - helper methods below:
+    private void RespawnPacStudent()
     {
-        return score;
+        tweener.removeTween(PacStudent.transform);
+        PacStudent.transform.position = new Vector3(1,-1);
+    }
+
+    public void togglePacStudentMovement(bool canMove)
+    {
+        pacStudentCanMove = canMove;
     }
 }

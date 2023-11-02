@@ -1,17 +1,14 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditor.SearchService;
+using UnityEngine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+public class LvlOneManager : MonoBehaviour
 {
-    // 60% Band - In game UI Appearance:
-    public RectTransform startScreen;
-
-    // 80% Band - Collisions, UI updates and Saving High Scores:
+    public RectTransform HUD;
     public Text ghostTimer;
     private Button exitButton;
     public Text scoreText;
@@ -22,22 +19,24 @@ public class UIManager : MonoBehaviour
     public Text roundStartTimer;
     public GameObject pacStudent;
     private PacStudentController pacStudentController;
-    public Timer gameTimer;
-    public Text highScoreText;
+    public Timer gameTimer; 
     public Text gameOverText;
 
-    void Awake()
+    public AudioSource bgmPlayer;
+
+    // Start is called before the first frame update
+    void Start()
     {
-        StartCoroutine(RoundStartCountdown()); // FOR TESTING DELETE BEFORE SUBMISSION
+        if (HUD != null)
+        {
+            HUD.sizeDelta = new Vector2(Screen.width, Screen.height);
+        }
+
+        StartCoroutine(RoundStartCountdown());
 
         if (pacStudent != null)
         {
             pacStudentController = pacStudent.GetComponent<PacStudentController>();
-        }
-
-        if (startScreen != null)
-        {
-            startScreen.sizeDelta = new Vector2(Screen.width, Screen.height);
         }
 
         if (ghostTimer != null)
@@ -49,13 +48,16 @@ public class UIManager : MonoBehaviour
         {
             gameOverText.enabled = false;
         }
+
     }
 
-    public void LoadLevelOne()
+    // Update is called once per frame
+    void Update()
     {
-        DontDestroyOnLoad(this);
-        SceneManager.LoadSceneAsync(1);
-        StartCoroutine(RoundStartCountdown());
+        if (amountOfLives == 0 || pacStudentController.eatenAllPellets())
+        {
+            GameOver();
+        }
     }
 
     public void exitToStart()
@@ -147,56 +149,34 @@ public class UIManager : MonoBehaviour
         roundStartTimer.enabled = false;
         pacStudentController.togglePacStudentMovement(true);
         gameTimer.StartTimer();
-
-        // Start the background music
-        // backgroundMusic.Play();
-
-        // Start the game timer if you have one
-        // StartGameTimer();
-    }
-
-    private void updateHighScore()
-    {
-        int highScore = PlayerPrefs.GetInt("HighScore", 0);
-        string highScoreTime = PlayerPrefs.GetString("HighScoreTime", "00:00:00");
-        highScoreText.text = "High Score: " + highScore + " Time: " + highScoreTime;
+        bgmPlayer.Play();
     }
 
     private void SaveHighScoreAndTime()
     {
-        int savedHighScore = PlayerPrefs.GetInt("HighScore", 0);
-        string savedTime = PlayerPrefs.GetString("HighScoreTime", "00:00:00");
+        int highScore = PlayerPrefs.GetInt("HighScore", 0);
+        Debug.Log(gameTimer.GetCurrentTime());
+        PlayerPrefs.SetString("LastTime", gameTimer.getCurrentTimeText());
+        PlayerPrefs.Save();
 
-        bool newRecord = false;
-        if (currentScore > savedHighScore)
+        // Check if the current score is higher than the high score
+        // or if it's the same and the current time is faster
+        if (currentScore > highScore)
         {
-            newRecord = true;
-        }
-        else if (currentScore == savedHighScore)
-        {
-            if (string.CompareOrdinal(gameTimer.GetCurrentTime(), savedTime) < 0)
-            {
-                newRecord = true;
-            }
+            PlayerPrefs.SetInt("HighScore", currentScore);
+            PlayerPrefs.Save();
         }
     }
 
     public void GameOver()
     {
-        // Show Game Over Text
         gameOverText.enabled = true;
-
         // Stop all player and ghost movement
         pacStudentController.togglePacStudentMovement(false);
         // Stop all ghosts not needed as I did not get to the 90% band.
 
-        // Pause the Game Timer
         gameTimer.StopTimer();
-
-        // Save High Score and Time if conditions are met
         SaveHighScoreAndTime();
-
-        // Wait for 3 seconds and load the Start Scene
         StartCoroutine(WaitAndLoadStartScene());
     }
 
@@ -204,7 +184,6 @@ public class UIManager : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
         SceneManager.LoadScene("StartScene");
-        updateHighScore();
     }
 
 }

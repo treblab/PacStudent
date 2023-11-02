@@ -18,7 +18,7 @@ public class PacStudentController : MonoBehaviour
 
     private Tweener tweener;
     private LevelGrid levelGrid;
-    private UIManager uiManager;
+    private LvlOneManager uiManager;
 
     private char lastInput;
     private char currentInput;
@@ -66,11 +66,15 @@ public class PacStudentController : MonoBehaviour
     // To ensure PacStudent doesnt move until the countdown is finished:
     private bool pacStudentCanMove = false;
 
+    // For GAME OVER:
+    private bool ateAllPellets = false;
+    private int pelletsEaten;
+
     void Start()
     {
         tweener = GetComponent<Tweener>();
         levelGrid = new LevelGrid();
-        uiManager = GameObject.Find("Managers").GetComponent<UIManager>();
+        uiManager = GameObject.Find("Managers").GetComponent<LvlOneManager>();
         ghostControllerObj = GameObject.Find("GhostController");
         ghostController = ghostControllerObj.GetComponent<GhostController>();
     }
@@ -191,6 +195,7 @@ public class PacStudentController : MonoBehaviour
             collisionAudio.volume = 0.1f;
             collisionAudio.Play();
             uiManager.addScore(10);
+            ++pelletsEaten;
 
             // Convert the world position of the collision to a cell position on the Tilemap
 
@@ -269,7 +274,6 @@ public class PacStudentController : MonoBehaviour
 
     }
 
-    //80% band - helper methods below:
     private void RespawnPacStudent()
     {
         tweener.removeTween(PacStudent.transform);
@@ -279,5 +283,15 @@ public class PacStudentController : MonoBehaviour
     public void togglePacStudentMovement(bool canMove)
     {
         pacStudentCanMove = canMove;
+    }
+
+    public bool eatenAllPellets()
+    {
+        if (pelletsEaten == 218) // There are 218 regular pellets in the game - if he has eaten them all, he wins.
+        {
+            ateAllPellets = true;
+            return ateAllPellets;
+        }
+        return ateAllPellets;
     }
 }

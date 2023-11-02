@@ -202,7 +202,7 @@ public class PacStudentController : MonoBehaviour
             Debug.Log("Pellet cell position: " + cellPosition);
             Debug.Log("Pellet world position: " + tileCenterPosition);
 
-            // Set the tile at that cell position to null (i.e., remove the tile)
+            // Remove the tile/destroty the pellet
             pelletTilemap.SetTile(cellPosition, null);
         }
 

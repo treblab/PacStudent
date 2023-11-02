@@ -1,17 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using UnityEditor.SearchService;
+using UnityEngine;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
-public class UIManager : MonoBehaviour
+public class LvlOneManager : MonoBehaviour
 {
-    // 60% Band - In game UI Appearance:
-    public RectTransform startScreen;
-
-    // 80% Band - Collisions, UI updates and Saving High Scores:
     public Text ghostTimer;
     private Button exitButton;
     public Text scoreText;
@@ -22,22 +17,17 @@ public class UIManager : MonoBehaviour
     public Text roundStartTimer;
     public GameObject pacStudent;
     private PacStudentController pacStudentController;
-    public Timer gameTimer;
-    public Text highScoreText;
+    public Timer gameTimer; 
     public Text gameOverText;
 
-    void Awake()
+    // Start is called before the first frame update
+    void Start()
     {
-        StartCoroutine(RoundStartCountdown()); // FOR TESTING DELETE BEFORE SUBMISSION
+        StartCoroutine(RoundStartCountdown());
 
         if (pacStudent != null)
         {
             pacStudentController = pacStudent.GetComponent<PacStudentController>();
-        }
-
-        if (startScreen != null)
-        {
-            startScreen.sizeDelta = new Vector2(Screen.width, Screen.height);
         }
 
         if (ghostTimer != null)
@@ -49,21 +39,16 @@ public class UIManager : MonoBehaviour
         {
             gameOverText.enabled = false;
         }
+
     }
 
-    private void Update()
+    // Update is called once per frame
+    void Update()
     {
         if (amountOfLives == 0 || pacStudentController.eatenAllPellets())
         {
             GameOver();
         }
-    }
-
-    public void LoadLevelOne()
-    {
-        DontDestroyOnLoad(this);
-        SceneManager.LoadSceneAsync(1);
-        StartCoroutine(RoundStartCountdown());
     }
 
     public void exitToStart()
@@ -167,7 +152,7 @@ public class UIManager : MonoBehaviour
     {
         int highScore = PlayerPrefs.GetInt("HighScore", 0);
         string highScoreTime = PlayerPrefs.GetString("HighScoreTime", "00:00:00");
-        highScoreText.text = "High Score: " + highScore + " Time: " + highScoreTime;
+        // highScoreText.text = "High Score: " + highScore + " Time: " + highScoreTime;
     }
 
     private void SaveHighScoreAndTime()

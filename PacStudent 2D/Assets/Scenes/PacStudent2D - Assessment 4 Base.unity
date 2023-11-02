@@ -23068,8 +23068,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1602086184}
-  - component: {fileID: 1602086185}
   - component: {fileID: 1602086186}
+  - component: {fileID: 1602086187}
   m_Layer: 0
   m_Name: Managers
   m_TagString: Untagged
@@ -23093,30 +23093,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1602086185
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1602086183}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73667774342d89b40a345fe725beb6e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startScreen: {fileID: 0}
-  ghostTimer: {fileID: 1488995184}
-  scoreText: {fileID: 1943909109}
-  lives:
-  - {fileID: 2049649426}
-  - {fileID: 725738620}
-  - {fileID: 419941218}
-  roundStartTimer: {fileID: 416099095}
-  pacStudent: {fileID: 1334275497}
-  gameTimer: {fileID: 2131182010}
-  highScoreText: {fileID: 0}
-  gameOverText: {fileID: 571097951}
 --- !u!114 &1602086186
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -23131,6 +23107,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   introBGM: {fileID: 1926091464}
   ghostBGM: {fileID: 400959855}
+--- !u!114 &1602086187
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1602086183}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a9f917e2e886e842b1f6e3de1aa00d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ghostTimer: {fileID: 1488995184}
+  scoreText: {fileID: 1943909109}
+  lives:
+  - {fileID: 2049649426}
+  - {fileID: 725738620}
+  - {fileID: 419941218}
+  roundStartTimer: {fileID: 416099095}
+  pacStudent: {fileID: 1334275497}
+  gameTimer: {fileID: 2131182010}
+  gameOverText: {fileID: 571097951}
 --- !u!1 &1611919444
 GameObject:
   m_ObjectHideFlags: 0
@@ -23369,8 +23367,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1602086185}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 1602086187}
+        m_TargetAssemblyTypeName: LvlOneManager, Assembly-CSharp
         m_MethodName: exitToStart
         m_Mode: 1
         m_Arguments:

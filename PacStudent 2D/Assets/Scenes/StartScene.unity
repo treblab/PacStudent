@@ -1082,7 +1082,7 @@ GameObject:
   - component: {fileID: 1574899440}
   - component: {fileID: 1574899439}
   m_Layer: 5
-  m_Name: Time
+  m_Name: BestTime
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1310,8 +1310,8 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 2046429750}
-        m_TargetAssemblyTypeName: UIManager, Assembly-CSharp
+      - m_Target: {fileID: 2046429752}
+        m_TargetAssemblyTypeName: StartSceneUIManager, Assembly-CSharp
         m_MethodName: LoadLevelOne
         m_Mode: 1
         m_Arguments:
@@ -1932,28 +1932,14 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2046429751}
-  - component: {fileID: 2046429750}
+  - component: {fileID: 2046429752}
   m_Layer: 0
-  m_Name: Managers
+  m_Name: StartSceneManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &2046429750
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2046429749}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73667774342d89b40a345fe725beb6e5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  startScreen: {fileID: 1751545213}
-  gameHUD: {fileID: 0}
 --- !u!4 &2046429751
 Transform:
   m_ObjectHideFlags: 0
@@ -1969,6 +1955,21 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2046429752
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2046429749}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2353c6cfaaf73d9419c5fa32a1876481, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  startScreen: {fileID: 0}
+  highScoreText: {fileID: 452486456}
+  highScoreTimeText: {fileID: 1574899439}
 --- !u!1 &2112614696
 GameObject:
   m_ObjectHideFlags: 0

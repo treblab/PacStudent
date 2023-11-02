@@ -4,11 +4,17 @@ using UnityEngine.UI;
 
 public class StartSceneUIManager : MonoBehaviour
 {
+    public RectTransform startScreen;
     public Text highScoreText; 
     public Text highScoreTimeText;
 
     void Start()
     {
+        if (startScreen != null)
+        {
+            startScreen.sizeDelta = new Vector2(Screen.width, Screen.height);
+        }
+
         LoadHighScoreAndTime();
     }
 

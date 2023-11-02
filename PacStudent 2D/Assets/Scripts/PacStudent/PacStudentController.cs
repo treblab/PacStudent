@@ -18,7 +18,7 @@ public class PacStudentController : MonoBehaviour
 
     private Tweener tweener;
     private LevelGrid levelGrid;
-    private UIManager uiManager;
+    private LvlOneManager uiManager;
 
     private char lastInput;
     private char currentInput;
@@ -74,7 +74,7 @@ public class PacStudentController : MonoBehaviour
     {
         tweener = GetComponent<Tweener>();
         levelGrid = new LevelGrid();
-        uiManager = GameObject.Find("Managers").GetComponent<UIManager>();
+        uiManager = GameObject.Find("Managers").GetComponent<LvlOneManager>();
         ghostControllerObj = GameObject.Find("GhostController");
         ghostController = ghostControllerObj.GetComponent<GhostController>();
     }

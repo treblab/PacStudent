@@ -13,7 +13,11 @@ public class UIManager : MonoBehaviour
     private Button exitButton;
     public Text scoreText;
 
+    public Image[] lives;
+    private int amountOfLives = 3;
+
     private int currentScore = 0;
+    private Coroutine ghostTimerCoroutine;
 
     // Start is called before the first frame update
     void Awake()
@@ -66,11 +70,17 @@ public class UIManager : MonoBehaviour
 
     public void startGhostTimer()
     {
-        StartCoroutine(GhostTimerCountdown(10f));
+        // Here to refresh the countdown if another pellet is eaten before the countdown finishes.
+        if (ghostTimerCoroutine != null)
+        {
+            StopCoroutine(ghostTimerCoroutine);
+        }
+        ghostTimerCoroutine = StartCoroutine(GhostTimerCountdown(10f));
     }
 
     private IEnumerator GhostTimerCountdown(float duration)
     {
+
         ghostTimer.enabled = true;
         float remainingTime = duration;
         ghostTimer.text = "Ghosts scared for: 10s";
@@ -90,5 +100,14 @@ public class UIManager : MonoBehaviour
 
         ghostTimer.enabled = false;
         // Reset the ghosts to their normal state here or notify the GhostController to do so
+    }
+
+    public void removeLives()
+    {
+        --amountOfLives;
+        if (amountOfLives >= 0)
+        {
+           lives[amountOfLives].enabled = false;
+        }
     }
 }

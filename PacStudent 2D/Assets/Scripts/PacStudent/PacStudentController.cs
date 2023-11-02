@@ -33,6 +33,8 @@ public class PacStudentController : MonoBehaviour
     private GameObject ghostControllerObj;
     private GhostController ghostController;
 
+    private bool pacStudentDead = false; // PacStudent will always be alive at the start of the game.
+    public ParticleSystem pacStudentDeathParticles;
 
     // Map of keys and their corresponding directions
     private Dictionary<char, Vector2> charToDirection = new Dictionary<char, Vector2>
@@ -76,6 +78,7 @@ public class PacStudentController : MonoBehaviour
         {
             TryMoveInDirection(lastInput);
 
+            // Uncomment this for smoother movement (not according to the marking criteria)
             // if (!TryMoveInDirection(lastInput))
             // {
                 // TryMoveInDirection(currentInput);
@@ -184,7 +187,6 @@ public class PacStudentController : MonoBehaviour
             collisionAudio.clip = collisions[1];
             collisionAudio.volume = 0.1f;
             collisionAudio.Play();
-            
             uiManager.addScore(10);
 
             // Convert the world position of the collision to a cell position on the Tilemap
@@ -197,10 +199,6 @@ public class PacStudentController : MonoBehaviour
 
             // Optionally, get the world position of the center of the tile
             Vector3 tileCenterPosition = pelletTilemap.GetCellCenterWorld(cellPosition);
-
-
-            Debug.Log("Pellet cell position: " + cellPosition);
-            Debug.Log("Pellet world position: " + tileCenterPosition);
 
             // Remove the tile/destroty the pellet
             pelletTilemap.SetTile(cellPosition, null);
@@ -245,6 +243,36 @@ public class PacStudentController : MonoBehaviour
             ghostController.PowerPelletEaten();
             uiManager.startGhostTimer();
         }
- 
+
+        if (collision.CompareTag("normalGhost"))
+        {
+            Debug.Log("PacStudent has collided with a Ghost in walking state. ");
+
+            // Declare as dead and have death effect play for a set amount of time (3s)
+            pacStudentDead = true;
+            ParticleSystem deathEffectInstance = Instantiate(pacStudentDeathParticles, transform.position, Quaternion.identity);
+            Destroy(deathEffectInstance, 3.0f);
+            uiManager.removeLives();
+
+            // Re-instantiate PacStudent at the top-left, and wait for player input.
+            RespawnPacStudent();
+            pacStudentDead = false;
+        }
+
+        if (collision.CompareTag("scaredGhost") || collision.CompareTag("recoveringGhost"))
+        {
+            Debug.Log("PacStudent has collided with a Ghost in Scared State. ");
+            
+            ghostController.scaredGhostEaten(collision.gameObject);
+            uiManager.addScore(300);
+        }
+
     }
+
+    private void RespawnPacStudent()
+    {
+        tweener.removeTween(PacStudent.transform);
+        PacStudent.transform.position = new Vector3(1,-1);
+    }
+
 }

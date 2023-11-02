@@ -17,6 +17,7 @@ TagManager:
   - scaredGhost
   - recoveringGhost
   - deadGhost
+  - HUD
   layers:
   - Default
   - TransparentFX

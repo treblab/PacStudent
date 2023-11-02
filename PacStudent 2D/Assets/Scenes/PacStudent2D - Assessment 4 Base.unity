@@ -23072,7 +23072,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startScreen: {fileID: 0}
-  gameHUD: {fileID: 1692478716}
   ghostTimer: {fileID: 1488995184}
   scoreText: {fileID: 1943909109}
   lives:
@@ -23080,6 +23079,7 @@ MonoBehaviour:
   - {fileID: 725738620}
   - {fileID: 419941218}
   roundStartTimer: {fileID: 416099095}
+  pacStudent: {fileID: 1334275497}
 --- !u!1 &1611919444
 GameObject:
   m_ObjectHideFlags: 0

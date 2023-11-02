@@ -8,33 +8,31 @@ public class UIManager : MonoBehaviour
 {
     // 60% Band - In game UI Appearance:
     public RectTransform startScreen;
-    public RectTransform gameHUD;
+
+    // 80% Band - Collisions, UI updates and Saving High Scores:
     public Text ghostTimer;
     private Button exitButton;
     public Text scoreText;
-
-    // 80% Band - Collisions, UI updates and Saving High Scores:
     public Image[] lives;
     private int amountOfLives = 3;
     private int currentScore = 0;
     private Coroutine ghostTimerCoroutine;
     public Text roundStartTimer;
+    public GameObject pacStudent;
     private PacStudentController pacStudentController;
 
     void Awake()
-    { 
-        pacStudentController = GameObject.FindWithTag("PacStudent").GetComponent<PacStudentController>();
+    {
+         StartCoroutine(RoundStartCountdown()); // FOR TESTING DELETE BEFORE SUBMISSION
+
+        if (pacStudent != null)
+        {
+            pacStudentController = pacStudent.GetComponent<PacStudentController>();
+        }
 
         if (startScreen != null)
         {
             startScreen.sizeDelta = new Vector2(Screen.width, Screen.height);
-            // Debug.Log("startScreen sizeDelta called.");
-        }
-        
-        if (gameHUD != null)
-        {
-            gameHUD.sizeDelta = new Vector2(Screen.width, Screen.height);
-            // Debug.Log("gameHUD sizeDelta called.");
         }
 
         if (ghostTimer != null)
@@ -42,10 +40,6 @@ public class UIManager : MonoBehaviour
             ghostTimer.enabled = false;
         }
 
-        if (roundStartTimer != null)
-        {
-            roundStartTimer.enabled = false;  
-        }
     }
 
     public void LoadLevelOne()
@@ -120,6 +114,12 @@ public class UIManager : MonoBehaviour
 
     private IEnumerator RoundStartCountdown()
     {
+        if (!roundStartTimer)
+        {
+            Debug.Log("Round start time is null! ");
+        }
+
+        Debug.Log(roundStartTimer.enabled);
         roundStartTimer.enabled = true; // Make sure the countdown text is visible
 
         // Countdown from 3 to 1 then show "GO!"
@@ -137,12 +137,17 @@ public class UIManager : MonoBehaviour
 
         // Hide the countdown text and start the game, allowing pacstudent to move.
         roundStartTimer.enabled = false;
-        // pacStudentController.togglePacStudentMovement(true);
+        pacStudentController.togglePacStudentMovement(true);
 
         // Start the background music
         // backgroundMusic.Play();
 
         // Start the game timer if you have one
         // StartGameTimer();
+    }
+
+    private void initialiseHUD()
+    {
+        // Canvas.
     }
 }

@@ -64,7 +64,7 @@ public class PacStudentController : MonoBehaviour
     };
 
     // To ensure PacStudent doesnt move until the countdown is finished:
-    private bool pacStudentCanMove = true;
+    private bool pacStudentCanMove = false;
 
     void Start()
     {
@@ -77,6 +77,7 @@ public class PacStudentController : MonoBehaviour
 
     void Update()
     {
+        Debug.Log("Can pacstudent move: " + pacStudentCanMove);
         if (!pacStudentCanMove) return;
 
         if (!isLerping())

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,7 @@ using UnityEngine.UI;
 
 public class LvlOneManager : MonoBehaviour
 {
+    public RectTransform HUD;
     public Text ghostTimer;
     private Button exitButton;
     public Text scoreText;
@@ -23,6 +25,11 @@ public class LvlOneManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        if (HUD != null)
+        {
+            HUD.sizeDelta = new Vector2(Screen.width, Screen.height);
+        }
+
         StartCoroutine(RoundStartCountdown());
 
         if (pacStudent != null)
@@ -151,26 +158,22 @@ public class LvlOneManager : MonoBehaviour
     private void updateHighScore()
     {
         int highScore = PlayerPrefs.GetInt("HighScore", 0);
-        string highScoreTime = PlayerPrefs.GetString("HighScoreTime", "00:00:00");
-        // highScoreText.text = "High Score: " + highScore + " Time: " + highScoreTime;
+        string highScoreTime = PlayerPrefs.GetString("HighScoreTime", "");
     }
 
     private void SaveHighScoreAndTime()
     {
-        int savedHighScore = PlayerPrefs.GetInt("HighScore", 0);
-        string savedTime = PlayerPrefs.GetString("HighScoreTime", "00:00:00");
+        int highScore = PlayerPrefs.GetInt("HighScore", 0);
 
-        bool newRecord = false;
-        if (currentScore > savedHighScore)
+        PlayerPrefs.SetString("LastTime", gameTimer.GetCurrentTime());
+        PlayerPrefs.Save();
+
+        // Check if the current score is higher than the high score
+        // or if it's the same and the current time is faster
+        if (currentScore > highScore)
         {
-            newRecord = true;
-        }
-        else if (currentScore == savedHighScore)
-        {
-            if (string.CompareOrdinal(gameTimer.GetCurrentTime(), savedTime) < 0)
-            {
-                newRecord = true;
-            }
+            PlayerPrefs.SetInt("HighScore", currentScore);
+            PlayerPrefs.Save();
         }
     }
 
@@ -197,7 +200,7 @@ public class LvlOneManager : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
         SceneManager.LoadScene("StartScene");
-        updateHighScore();
+        // updateHighScore();
     }
 
 }

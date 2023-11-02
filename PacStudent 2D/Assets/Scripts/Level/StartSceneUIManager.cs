@@ -21,7 +21,7 @@ public class StartSceneUIManager : MonoBehaviour
     private void LoadHighScoreAndTime()
     {
         int highScore = PlayerPrefs.GetInt("HighScore", 0);
-        string highScoreTime = PlayerPrefs.GetString("HighScoreTime", "00:00:00");
+        string highScoreTime = PlayerPrefs.GetString("HighScoreTime", " ");
 
         highScoreText.text = "High Score: " + highScore.ToString();
         highScoreTimeText.text = "Best Time: " + highScoreTime;

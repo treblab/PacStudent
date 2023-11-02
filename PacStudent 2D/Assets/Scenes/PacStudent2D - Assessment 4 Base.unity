@@ -23119,6 +23119,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a9f917e2e886e842b1f6e3de1aa00d8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HUD: {fileID: 1692478716}
   ghostTimer: {fileID: 1488995184}
   scoreText: {fileID: 1943909109}
   lives:

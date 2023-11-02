@@ -11,6 +11,9 @@ public class UIManager : MonoBehaviour
     public RectTransform gameHUD;
     public Text ghostTimer;
     private Button exitButton;
+    public Text scoreText;
+
+    private int currentScore = 0;
 
     // Start is called before the first frame update
     void Awake()
@@ -35,12 +38,6 @@ public class UIManager : MonoBehaviour
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     public void LoadLevelOne()
     {
         DontDestroyOnLoad(this);
@@ -51,5 +48,47 @@ public class UIManager : MonoBehaviour
     {
         Debug.Log("Exiting to start scene..");
         SceneManager.LoadSceneAsync(0);
+    }
+
+    public void addScore(int points)
+    {
+        currentScore += points;
+        updateScore();
+    }
+
+    public void updateScore()
+    {
+        if(scoreText != null)
+        {
+            scoreText.text = "Score: " + currentScore.ToString();
+        }
+    }
+
+    public void startGhostTimer()
+    {
+        StartCoroutine(GhostTimerCountdown(10f));
+    }
+
+    private IEnumerator GhostTimerCountdown(float duration)
+    {
+        ghostTimer.enabled = true;
+        float remainingTime = duration;
+        ghostTimer.text = "Ghosts scared for: 10s";
+
+        while (remainingTime > 0)
+        {
+            yield return new WaitForSeconds(1f);
+            remainingTime--;
+            ghostTimer.text = "Ghosts scared for: " + remainingTime + "s";
+
+            // With 3 seconds left, do something to indicate the ghosts are recovering
+            if (remainingTime <= 3)
+            {
+                // Change the UI to indicate recovering state
+            }
+        }
+
+        ghostTimer.enabled = false;
+        // Reset the ghosts to their normal state here or notify the GhostController to do so
     }
 }

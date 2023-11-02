@@ -9,8 +9,6 @@ using UnityEngine.Tilemaps;
 
 public class PacStudentController : MonoBehaviour
 {
-    private float score;
-
     [SerializeField] private GameObject PacStudent;
     [SerializeField] private Animator animator;
     [SerializeField] private AudioSource movementAudio;
@@ -20,6 +18,7 @@ public class PacStudentController : MonoBehaviour
 
     private Tweener tweener;
     private LevelGrid levelGrid;
+    private UIManager uiManager;
 
     private char lastInput;
     private char currentInput;
@@ -33,6 +32,7 @@ public class PacStudentController : MonoBehaviour
 
     private GameObject ghostControllerObj;
     private GhostController ghostController;
+
 
     // Map of keys and their corresponding directions
     private Dictionary<char, Vector2> charToDirection = new Dictionary<char, Vector2>
@@ -65,6 +65,7 @@ public class PacStudentController : MonoBehaviour
     {
         tweener = GetComponent<Tweener>();
         levelGrid = new LevelGrid();
+        uiManager = GameObject.Find("Managers").GetComponent<UIManager>();
         ghostControllerObj = GameObject.Find("GhostController");
         ghostController = ghostControllerObj.GetComponent<GhostController>();
     }
@@ -172,23 +173,37 @@ public class PacStudentController : MonoBehaviour
         {
             Debug.Log("PacStudent has collided with a wall. ");
             collisionAudio.clip = collisions[0];
+            collisionAudio.volume = 2.0f;
             collisionAudio.Play();
             wallCollisionParticles.Play();
         }
 
         if (collision.CompareTag("pellet"))
         {
-            // Debug.Log("PacStudent has eaten a pellet. Position: " + PacStudent.transform.position);
+            Debug.Log("PacStudent has eaten a pellet. Position: ");
             collisionAudio.clip = collisions[1];
-            collisionAudio.volume = 0.25f;
+            collisionAudio.volume = 0.1f;
             collisionAudio.Play();
-            score += 10;
+            
+            uiManager.addScore(10);
 
             // Convert the world position of the collision to a cell position on the Tilemap
-            // Vector3Int cellPosition = pelletTilemap.WorldToCell(collision.transform.position);
+
+            // Get the collision point in world space
+            Vector3 hitPosition = collision.ClosestPoint(transform.position);
+
+            // Convert the world position to a cell position on the Tilemap
+            Vector3Int cellPosition = pelletTilemap.WorldToCell(hitPosition);
+
+            // Optionally, get the world position of the center of the tile
+            Vector3 tileCenterPosition = pelletTilemap.GetCellCenterWorld(cellPosition);
+
+
+            Debug.Log("Pellet cell position: " + cellPosition);
+            Debug.Log("Pellet world position: " + tileCenterPosition);
 
             // Set the tile at that cell position to null (i.e., remove the tile)
-            // pelletTilemap.SetTile(cellPosition, null);
+            pelletTilemap.SetTile(cellPosition, null);
         }
 
         if (collision.CompareTag("teleporter"))
@@ -215,7 +230,11 @@ public class PacStudentController : MonoBehaviour
         if (collision.CompareTag("cherry"))
         {
             Debug.Log("PacStudent has eaten a cherry. ");
-            score += 100;
+            collisionAudio.clip = collisions[1];
+            collisionAudio.volume = 0.1f;
+            collisionAudio.Play(); // Adding sound to cherry collision to make it more fun :)
+
+            uiManager.addScore(100);
             Destroy(collision.gameObject); 
         }
 
@@ -224,12 +243,8 @@ public class PacStudentController : MonoBehaviour
             Debug.Log("PacStudent has collided with a power pellet. ");
             Destroy(collision.gameObject);
             ghostController.PowerPelletEaten();
+            uiManager.startGhostTimer();
         }
  
-    }
-
-    public float getScore()
-    {
-        return score;
     }
 }

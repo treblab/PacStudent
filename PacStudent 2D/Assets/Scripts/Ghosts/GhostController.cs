@@ -12,6 +12,13 @@ public class GhostController : MonoBehaviour
     [SerializeField] private Text ghostTimer; 
     [SerializeField] private float scaredDuration = 10f;
 
+    private UIManager uiManager;
+
+    void Start()
+    {
+        uiManager = GameObject.Find("Managers").GetComponent<UIManager>();
+    }
+
     public void PowerPelletEaten()
     {
         // Change ghost state to "Scared"
@@ -31,15 +38,15 @@ public class GhostController : MonoBehaviour
     private IEnumerator ScaredTimer()
     {
         // Make the Ghost Timer UI element visible and set it to the scaredDuration
-        ghostTimer.enabled = true;
+        // ghostTimer.enabled = true;
         float timer = scaredDuration;
-        ghostTimer.text = "Ghosts Scared For: 10s";
+        // ghostTimer.text = "Ghosts Scared For: 10s";
 
         while (timer > 0)
         {
             yield return new WaitForSeconds(1f);
             timer--;
-            ghostTimer.text = "Ghosts Scared For: " + timer + "s";
+            // ghostTimer.text = "Ghosts Scared For: " + timer + "s";
             // Debug.Log("Ghost timer: " + timer);
 
             // With 3 seconds left, change the Ghosts to the "Recovering" state
@@ -61,7 +68,7 @@ public class GhostController : MonoBehaviour
         }
 
         // Hide the Ghost Timer UI element and revert the background music
-        ghostTimer.enabled = false;
+        // ghostTimer.enabled = false;
         backgroundMusic.clip = normalMusic;
         backgroundMusic.Play();
     }

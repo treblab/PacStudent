@@ -196,7 +196,6 @@ public class PacStudentController : MonoBehaviour
             collisionAudio.Play();
             uiManager.addScore(10);
             ++pelletsEaten;
-            Debug.Log(pelletsEaten);
 
             // Convert the world position of the collision to a cell position on the Tilemap
 

@@ -51,6 +51,14 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    private void Update()
+    {
+        if (amountOfLives == 0 || pacStudentController.eatenAllPellets())
+        {
+            GameOver();
+        }
+    }
+
     public void LoadLevelOne()
     {
         DontDestroyOnLoad(this);

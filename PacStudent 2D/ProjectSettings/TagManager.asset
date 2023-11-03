@@ -8,6 +8,16 @@ TagManager:
   - BGM
   - introBGM
   - ghostBGM
+  - wall
+  - pellet
+  - teleporter
+  - cherry
+  - powerPellet
+  - normalGhost
+  - scaredGhost
+  - recoveringGhost
+  - deadGhost
+  - HUD
   layers:
   - Default
   - TransparentFX

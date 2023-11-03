@@ -33,7 +33,7 @@ public class PacStudentController : MonoBehaviour
     private GameObject ghostControllerObj;
     private GhostController ghostController;
 
-    private bool pacStudentDead = false; // PacStudent will always be alive at the start of the game.
+    // private bool pacStudentDead = false; // PacStudent will always be alive at the start of the game.
     public ParticleSystem pacStudentDeathParticles;
 
     // Map of keys and their corresponding directions
@@ -254,14 +254,14 @@ public class PacStudentController : MonoBehaviour
             Debug.Log("PacStudent has collided with a Ghost in walking state. ");
 
             // Declare as dead and have death effect play for a set amount of time (3s)
-            pacStudentDead = true;
+            // pacStudentDead = true;
             ParticleSystem deathEffectInstance = Instantiate(pacStudentDeathParticles, transform.position, Quaternion.identity);
             Destroy(deathEffectInstance, 3.0f);
             uiManager.removeLives();
 
             // Re-instantiate PacStudent at the top-left, and wait for player input.
             RespawnPacStudent();
-            pacStudentDead = false;
+            // pacStudentDead = false;
         }
 
         if (collision.CompareTag("scaredGhost") || collision.CompareTag("recoveringGhost"))
